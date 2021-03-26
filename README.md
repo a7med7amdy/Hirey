@@ -11,4 +11,6 @@ Interviews are crucial moments in one’s career. Theoretical knowledge of inter
 # System Architecture
 ![alt text](https://user-images.githubusercontent.com/32201440/112651119-c2b57100-8e54-11eb-8666-d9082b5fc9f0.png)
 
+# System Modules
+![alt text](https://user-images.githubusercontent.com/32201440/112652124-bb429780-8e55-11eb-9a03-0197dd64c932.png)
 
