@@ -1,4 +1,6 @@
-# Hirey  ![image](https://user-images.githubusercontent.com/32201440/112652470-1d030180-8e56-11eb-9f95-0e5e14753c55.png)
+![image](https://user-images.githubusercontent.com/32201440/112652470-1d030180-8e56-11eb-9f95-0e5e14753c55.png)
+
+# Hirey 
 
 end-to-end hiring practice platform using technical video interviews to analyze interviewee's answers, voice and facial expressions emotions using AI.
 
