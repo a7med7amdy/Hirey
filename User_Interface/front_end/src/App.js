@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import Home from './components/HomeComponent.js';
+import Video from './components/VideoComponent'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/">
             <Home />
         </Route>
+        
       </Switch>
     </BrowserRouter>
   );

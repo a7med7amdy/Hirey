@@ -26,7 +26,7 @@ class Header extends Component {
         return(
             <React.Fragment>
                 <Navbar dark expand="md">
-                    <div className="container ml-4"> }
+                    <div className="container ml-4"> 
                         <NavbarToggler onClick={this.toggleNav} />
                         {/* <img src='images/log.jpg' height="70" width="70" /> */}
                         <NavbarBrand  href="/"> Mock Interview System</NavbarBrand>
