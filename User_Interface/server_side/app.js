@@ -5,9 +5,22 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
+
+var torchjs = require('@idn/torchjs');
+var script_module = new torchjs.ScriptModule('resnet.pth');
+var tensor = torchjs.ones([1, 3, 224, 224], false);
+ 
+const { performance } = require('perf_hooks');
+
+// Comment this out if you don't have cuda
+script_module.cuda();
+let start, end;
+start = performance.now();
+let otensor = script_module.forward(tensor);
+end = performance.now();
+console.log(`      gpu: ${end - start} ms`);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
