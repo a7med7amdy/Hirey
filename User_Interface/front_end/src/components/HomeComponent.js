@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import Video from './VideoComponent'
+import Video from './VideoComponent';
 import { withRouter } from 'react-router-dom';
-import VideoRecorder from 'react-video-recorder';
-import { ReactMediaRecorder } from "react-media-recorder";
-import {ZiggeoRecorder} from 'react-ziggeo'
-import Webcam from "react-webcam";
+import SpeechRec from './SpeechRec';
+
+// import VideoRecorder from 'react-video-recorder';
+// import { ReactMediaRecorder } from "react-media-recorder";
+// import {ZiggeoRecorder} from 'react-ziggeo'
+// import Webcam from "react-webcam";
 
 // import { RecordWebcam, useRecordWebcam, CAMERA_STATUS } from "react-record-webcam";
 // function RecordVideo(props) {
@@ -54,66 +56,64 @@ import Webcam from "react-webcam";
 // };
 
 
-const videoJsOptions = {
-  controls: true,
-  bigPlayButton: false,
-  width: 320,
-  height: 240,
-  fluid: true,
-  aspectRatio: '2:1',
-
-
-  plugins: {
-      /*
-      // wavesurfer section is only needed when recording audio-only
-      wavesurfer: {
-          backend: 'WebAudio',
-          waveColor: '#36393b',
-          progressColor: 'black',
-          debug: true,
-          cursorWidth: 1,
-          msDisplayMax: 20,
-          hideScrollbar: true,
-          displayMilliseconds: true,
-          plugins: [
-              // enable microphone plugin
-              WaveSurfer.microphone.create({
-                  bufferSize: 4096,
-                  numberOfInputChannels: 1,
-                  numberOfOutputChannels: 1,
-                  constraints: {
-                      video: false,
-                      audio: true
-                  }
-              })
-          ]
-      },
-      */
-      record: {
-          audio: true,
-          video: true,
-          maxLength: 20,
-          debug: true,
-
-      }
-  }
-};
+// const videoJsOptions = {
+//   controls: true,
+//   bigPlayButton: false,
+//   fluid: true,
+//   width: 120,
+//   height: 120,
+//   aspectRatio: '3:1',
+//   autorecord: true,
+//   plugins: {
+//       /*
+//       // wavesurfer section is only needed when recording audio-only
+//       wavesurfer: {
+//           backend: 'WebAudio',
+//           waveColor: '#36393b',
+//           progressColor: 'black',
+//           debug: true,
+//           cursorWidth: 1,
+//           msDisplayMax: 20,
+//           hideScrollbar: true,
+//           displayMilliseconds: true,
+//           plugins: [
+//               // enable microphone plugin
+//               WaveSurfer.microphone.create({
+//                   bufferSize: 4096,
+//                   numberOfInputChannels: 1,
+//                   numberOfOutputChannels: 1,
+//                   constraints: {
+//                       video: false,
+//                       audio: true
+//                   }
+//               })
+//           ]
+//       },
+//       */
+//       record: {
+//           audio: true,
+//           video: true,
+//           maxLength: 20,
+//           debug: true,
+//       }
+//   }
+// };
 
 class Home extends Component {
-  componentDidMount () {
-    const script = document.createElement("script");
-    script.src = "./index.js";
-    script.async = true;
-    document.body.appendChild(script);
-}
+  // componentDidMount () {
+  //   const script = document.createElement("script");
+  //   script.src = "./index.js";
+  //   script.async = true;
+  //   document.body.appendChild(script);
+  // }
     render() {
         return (
             <div>
-
                 <Header />             
                     <br></br>
                     <div id="mydiv">                 
-                         <Video { ...videoJsOptions }/>
+                        {/* <Video { ...videoJsOptions }/> */}
+                        <SpeechRec/> 
                     </div>
                     {/* <RecordVideo /> */}
                    { /*<ReactMediaRecorder
@@ -157,7 +157,7 @@ class Home extends Component {
                         onUploading={handleRecorderUploading}
                         // onRef={ref => (setRecorder(ref))}
                     /> */}
-                
+                    <br></br>
                 <Footer />
             </div>
         );

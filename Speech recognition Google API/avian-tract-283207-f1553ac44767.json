@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "avian-tract-283207",
+  "private_key_id": "f1553ac4476770888d82b051eed1e90477683ab5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCi0FBF1CAUVQfj\nlq/4AgHM44DYYDrM6KJazjoyOBdAc1LDj85nuvBHnxPsnGuHZj60oroQV1GYknoL\nhuobpYvF9cKeCLPFr0yS1ygsgIqjTbr+FAx9ILgj+sPZysoXw9bG2lbigltJMYfT\nH0yY551YTyIOV/RPDjc+Wd3McciCDFpBCK8OUnWr6cetQxHEgpwi4kyiBR4/rc1/\nNYjK7i12LqvFoErLojyvqr4RiJXy0cada3LadGysqm3CHPvU00KTc1dNnA62Z+tp\namTJwe5jF5BEAbF5KnxDNS8PmuTpI1Djb8bA1k0BmNuOLyoXZhvPx+gUa+DqnGd9\nBpLsk9n3AgMBAAECggEAA6YLcSUp0DV/nG1kus1rYOi68HO88u6br3vuTfB32kKQ\nrj/rbjkAPXqmevzzuUW5+K5U4Rzef+l4bAhf+Af5CTyoBIaeu2Vhn+t2bljgbScc\nHlQwsMp/lel+uMNp9/0JiSHyJIKrV7Pmc/1q6AT4v7aLmtVZwj5ypSZlFA8mC9QA\nhKDcT6zVjm/0UgOgMmt1gK4eaZt6WRLwiTx7zj/jnNdEtiM3ZknvyLCbkUUVcgFk\nHt8yIsPvoIF60bGHOC3NibxsFcEguSlmr2pkF40IYHascHj9QbyZHDx7TmDziiwW\nIWhRWHuNkwfkGN8cLCXOGnPqeO5ECmWG/z7kF5/bcQKBgQDfNNVi73enNxGJRpJV\nxh5ce/0OBZWpeYhhwfGuLd664InLKyU8AjpXzfh2XAUKyDCOq2t3pVPitLRWuaLO\naGZmENiXup2VWNouum5TeBNSuwiTwlxLdKpZek6JRbuh6ZjFRTrkTz6IWS/VdzsC\n8m+WiCuh+/rcq0rCqtCpP9/ZAwKBgQC6vALKzpb13FpC8ElkInmk16bEpLR9ZKhz\nuhDkA7kD1HlDIf0OSr3fiw4nTyPIN3+6vxrhpi6lx+RP4qZon35Xa17RUqMrdR8i\n6v3HxXVym47FV3JufX7TgOzFIVRpJms7wc2t5UryV0apsJlUtcIvPjHI6T/sxk71\n6e+bnHF2/QKBgQCnPR7lEifE0i4BfS8HtXnqMbxZVTXd1YGqPXan2xaXTsXvxFQR\nslmkkF8pz6i3e2dmfmn3K5i+tEaq9ExX+0E+GEEw7lJEJF7VxDoFsGJKCnlSvL4K\ni09X25wcnnMHzc75f/WwOu/PmYONndhJTPzu/Pg0VmiQDoflc7cEGSfPoQKBgQCN\nfkbzW6UBuS1fyWkjCgh4gruoB1GILkyCHDwOOk/n+gjEeK2iNbo398sKuCnZ3UvY\nulPpJZ31GkkCyy/i2O/H1+Dp5Z8kH8QvFjakOBftdrexCrj3xfni068VFFM8tdLN\nXeW23aZziPRPQjR8/picaZkZrrw0cnOEXPWlSN6lFQKBgEA8/WobCjbPzlFfMCsJ\ncGkDwnW9zOZ+7Xawy7bi9B1oNps0ppP2ZIcfbMmCL1MOUkzrUw0tW1kYiEkx+OMt\n55Du7Vqy2w8UiUwkcu/aANRVHx3daGyXKvFnIyP5JE6EpGNonalVUhfdbKTeKb0X\naOmaafGJT35XQdxkDcwqGSoK\n-----END PRIVATE KEY-----\n",
+  "client_email": "myserviceaccount@avian-tract-283207.iam.gserviceaccount.com",
+  "client_id": "103820521016749512618",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/myserviceaccount%40avian-tract-283207.iam.gserviceaccount.com"
+}
