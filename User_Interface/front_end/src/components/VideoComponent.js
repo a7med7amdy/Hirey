@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-
-import '../App.css';
-
 import 'video.js/dist/video-js.css';
 import videojs from 'video.js';
-
 import 'webrtc-adapter';
 import RecordRTC from 'recordrtc';
+
 
 /*
 // Required imports when recording audio-only using the videojs-wavesurfer plugin
@@ -23,6 +20,17 @@ import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 import 'videojs-record/dist/css/videojs.record.css';
 import Record from 'videojs-record/dist/videojs.record.js';
 
+// function Test()
+// {
+//     const { transcript, resetTranscript } = useSpeechRecognition();
+//     resetTranscript();
+//     SpeechRecognition.startListening({ continuous: true});
+//     setTimeout( function() {
+//         SpeechRecognition.stopListening();
+//         console.log("Result" + transcript);
+//     }, 20000)
+// }
+
 class Video extends Component {
     componentDidMount() {
         // instantiate Video.js
@@ -33,7 +41,8 @@ class Video extends Component {
                 ' and recordrtc ' + RecordRTC.version;
             videojs.log(version_info);
         });
-
+        // this.player.record().getDevice();
+        // this.player.record().start();
         // device is ready
         this.player.on('deviceReady', () => {
             console.log('device is ready!');
@@ -41,7 +50,8 @@ class Video extends Component {
 
         // user clicked the record button and started recording
         this.player.on('startRecord', () => {
-            console.log('started recording!');
+            console.log('started recording!');  
+            this.props.Test(); 
         });
             
         // user completed recording and stream is available
@@ -49,14 +59,12 @@ class Video extends Component {
             // recordedData is a blob object containing the recorded data that
             // can be downloaded by the user, stored on server etc.
            // this.player.record().saveAs({'video': 'audio.mp4'}, 'convert');
-           var path = document.location.pathname;
-          var directory = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-          console.log(directory);
+            var path = document.location.pathname;
+            var directory = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+            console.log(directory);
             this.player.record().saveAs({'video': 'my-audio-file.mp3'});
             //this.player.record().saveAs({'video': 'my-video-file-name.mp4'}, 'convert');
             console.log('finished recording: ', this.player.recordedData);
-           
-
         });
 
         // error handling
@@ -67,9 +75,8 @@ class Video extends Component {
         this.player.on('deviceError', () => {
             console.error('device error:', this.player.deviceErrorCode);
         });
-       
     }
-
+    
     // destroy player on unmount
     componentWillUnmount() {
         if (this.player) {
@@ -78,11 +85,10 @@ class Video extends Component {
     }
     render() {
         return (
-        <div data-vjs-player>
-            <video id="myVideo" ref={node => this.videoNode = node} className="video-js vjs-default-skin" playsInline></video>
-        </div>
+            <div data-vjs-player>
+                <video id="myVideo" ref={node => this.videoNode = node} className="video-js vjs-default-skin" playsInline></video>
+            </div>
         );
     }
 }
-
 export default Video;
