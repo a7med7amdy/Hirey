@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+
+</head>
+
+<body>
+ <div class="login">
+ <div>
+	
+	</div>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label>Select audio</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="audio" id="audio">
+            <label class="custom-file-label" for="audio">select audio...</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+      </form>
+
+   <br>
+   <br>
+   {{ prediction_text }}
+
+ </div>
+
+
+</body>
+</html>
