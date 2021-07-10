@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-social": "^5.1.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "react": "^17.0.2",
@@ -19,6 +20,7 @@
     "react-scripts": "4.0.3",
     "react-speech-recognition": "^3.8.0",
     "react-video-recorder": "^3.17.2",
+    "react-webcam": "^5.2.4",
     "reactstrap": "^8.9.0",
     "styled-components": "^5.2.3",
     "videojs-record": "^4.4.0",
@@ -36,6 +38,7 @@
       "react-app/jest"
     ]
   },
+  "proxy":"http://localhost:3000",
   "browserslist": {
     "production": [
       ">0.2%",
