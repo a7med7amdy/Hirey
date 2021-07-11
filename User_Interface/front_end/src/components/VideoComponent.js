@@ -144,26 +144,42 @@ class Video extends React.Component {
             var data = canvas.toDataURL('image/png');
             var photo = document.createElement('photo');
             photo.setAttribute('src', data);
-            //console.log(photo);
+            console.log("fuck the photo ",photo);
 
             const headers = {
                 'image': photo,
             };
-
-         axios.get('http://6dad13b8ed1c.ngrok.io/predict',{
-           data : { 
-            image: photo
-        }
-        })
-        .then(response => {
+            var bodyFormData = new FormData();
+            bodyFormData.append('image', data); 
+            axios({
+              method: "post",
+              url: "http://b7a715bd2ef3.ngrok.io/predict",
+              data: bodyFormData,
+              
+              headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
+            })
+              .then(function (response) {
+                //handle success
+                console.log(response);
+              })
+              .catch(function (response) {
+                //handle error
+                console.log(response);
+              });
+         //axios.post('http://daa51f58c228.ngrok.io/predict',{
+         //  data : { 
+         //   image: photo
+        //}
+        //})
+        //.then(response => {
            /* this.setState({text: response.data},()=>{
                     this.setState({done:true});
             });*/
-            console.log(response)
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+          //  console.log(response)
+        //})
+        //.catch(function(error) {
+        //    console.log(error);
+        //});
 
 
         }
