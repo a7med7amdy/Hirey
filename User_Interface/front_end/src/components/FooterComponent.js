@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Footer(props) {
     return(
-    <div className="footer bottom">
+    <div className="footer bottom" style={{position: "absolute", left:0, bottom:0}}>
         
         <div className="container">
             <div className="row justify-content-center">             
@@ -12,20 +12,17 @@ function Footer(props) {
                     <ul className="list-unstyled">
                     <li><Link to='/home'>Home</Link></li>
                         <li><Link to='/aboutus'>About Us</Link></li>
-                        <li><Link to='/matches'>Matches</Link></li>
                         <li><Link to='/contactus'>Contact Us</Link></li>
                     </ul>
                 </div>
                 <div className="col-7 col-sm-5">
                     <h5>Our Address</h5>
                     <address>
-		              121, Clear Water Bay Road<br />
-		              Clear Water Bay, Kowloon<br />
-		              HONG KONG<br />
-		              <i className="fa fa-phone fa-lg"></i>: +852 1234 5678<br />
-		              <i className="fa fa-fax fa-lg"></i>: +852 8765 4321<br />
+                      Faculty of Engineering<br />
+		              Cairo University <br />
+		              Giza <br />
 		              <i className="fa fa-envelope fa-lg"></i>: <a href="/">
-                         interviews@egypt.net</a>
+                         jobs@egypt.net</a>
                     </address>
                 </div>
                 <div className="col-12 col-sm-4 align-self-center">
@@ -41,7 +38,7 @@ function Footer(props) {
             </div>
             <div className="row justify-content-center">             
                 <div className="col-auto">
-                    <p>© Copyright 2018 Egypt Primer League</p>
+                    <p>© Copyright 2021 Hiery</p>
                 </div>
             </div>
         </div>
