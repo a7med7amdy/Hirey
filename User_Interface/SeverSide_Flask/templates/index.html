@@ -15,8 +15,8 @@
 <body>
  <div class="login">
  <div>
-	
-	</div>
+  
+  </div>
 
      <!-- Main Input For Receiving Query to our ML -->
     <form action="/predict" method="POST" enctype="multipart/form-data">
@@ -36,7 +36,6 @@
       <br>
     <!-- Main Input For Receiving Query to our ML -->
     <form action="/predictVoice" method="POST" enctype="multipart/form-data">
-
     <div class="form-group">
       <label>Select audio</label>
       <div class="custom-file">
@@ -44,14 +43,30 @@
         <label class="custom-file-label" for="audio">select audio...</label>
       </div>
     </div>
-
     <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 
+    <br>
+    <br>
+
+    <form action="/predictSimilarity" method="POST" enctype="multipart/form-data">
+       <div class="form-group">
+        <label>write your answer</label>
+        <div class="custom-file">
+          <input type="text" class="custom-file-input" name="ans2" id="ans2">
+          <input type="text" class="custom-file-input" name="ans1" id="ans1">
+          <label class="custom-file-label" for="ans1">write your answer</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">predict Similarity</button>
     </form>
     {{ prediction_voice }}
    <br>
    <br>
    {{ prediction_text }}
+
+   <br>
+   {{ prediction_similarity}}
 
  </div>
 
