@@ -5,6 +5,7 @@ import Video from './VideoComponent';
 import { withRouter } from 'react-router-dom';
 import SpeechRec from './SpeechRec';
 import Select from "react-select";
+import { Button } from 'reactstrap';
 
 // import VideoRecorder from 'react-video-recorder';
 // import { ReactMediaRecorder } from "react-media-recorder";
@@ -122,20 +123,21 @@ class Home extends Component {
       return (
           <div>
               <Header />             
-                  <br></br>
-                  <div id="mydiv">                 
-                      {/* <Video { ...videoJsOptions }/> */}
-                      {/* <SpeechRec/>  */}
-                      <p  size="lg" className="text-primary" style={{fontWeight: 'bold', fontSize: 35}}> Choose your dream job and be qualified for it </p>
-                      <Select 
-                          className="browser-default"
-                          style={{"Width":"50%"}}
-                          placeholder={this.state.SelectedJob}
-                          options={this.optionsJob}
-                          value={this.state.HomeTeam}
-                          onChange={(input) => this.setState({SelectedJob: input.value})}
-                      />
-                  </div>
+              <br></br>
+              <div id="mydiv">                 
+                  {/* <Video { ...videoJsOptions }/> */}
+                  {/* <SpeechRec/>  */}
+                  <p  size="lg" className="text-primary" style={{fontWeight: 'bold', fontSize: 35}}> Choose your dream job and be qualified for it </p>
+                  <Select 
+                      className="browser-default"
+                      style={{"Width":"50%"}}
+                      placeholder={this.state.SelectedJob}
+                      options={this.optionsJob}
+                      value={this.state.HomeTeam}
+                      onChange={(input) => this.setState({SelectedJob: input.value})}
+                  />
+                  <Button color="primary m-5" style={{position:"absolute", right:'20%', width:"25%", fontSize: 20}}> Start the interview </Button>
+              </div>
                   {/* <RecordVideo /> */}
                   { /*<ReactMediaRecorder
                         video
