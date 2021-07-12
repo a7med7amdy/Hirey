@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { ConfigureStore } from './redux/configureStore';
 
 import Home from './components/HomeComponent.js';
+import Video from './components/VideoComponent';
 import './App.css';
 
 
@@ -14,6 +15,10 @@ function App() {
     <Provider store={store}>
         <BrowserRouter>
           <Switch>
+          <Route path="/interview">
+                <Video />
+            </Route>
+            
             <Route path="/">
                 <Home />
             </Route>
