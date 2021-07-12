@@ -195,3 +195,22 @@ pa-menu-item.selected {
   width: 80%;
   margin-left: 10%;
 }
+
+#feedback{
+  width:70%;
+  margin-left:8%;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+#feedback_font{
+  font-family: cursive;
+  font-size: 30px;
+}
+#card{
+  border-top: 4px solid #fc0;
+  border-radius: 4px;
+  margin-top:1%;
+}

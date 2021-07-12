@@ -142,9 +142,9 @@ class Video extends React.Component {
             context.drawImage(this.state.video, 0, 0, 1280, 720);
     
             var data = canvas.toDataURL('image/png');
-            var photo = document.createElement('photo');
+            var photo = document.createElement('img');
             photo.setAttribute('src', data);
-            console.log("fuck the photo ",photo);
+            console.log("fuck the photo ",data);
 
             const headers = {
                 'image': photo,
@@ -153,7 +153,7 @@ class Video extends React.Component {
             bodyFormData.append('image', data); 
             axios({
               method: "post",
-              url: "http://b7a715bd2ef3.ngrok.io/predict",
+              url: "http://92d50c4e47f6.ngrok.io/predict",
               data: bodyFormData,
               
               headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
