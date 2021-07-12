@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import Select from "react-select";
+import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Video from './VideoComponent';
-import { withRouter } from 'react-router-dom';
 import SpeechRec from './SpeechRec';
-import Select from "react-select";
-import { Button } from 'reactstrap';
+
+
+
+const mapStateToProps = state => {
+  return {
+    DL: state.dl,
+    NLP: state.nlp,
+    ML: state.ml,
+    SW: state.sw
+  }
+}
 
 // import VideoRecorder from 'react-video-recorder';
 // import { ReactMediaRecorder } from "react-media-recorder";
@@ -105,7 +117,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        SelectedJob: 'Deep Learning'
+        SelectedJob: 'Deep Learning',
+        start: Math.floor(Math.random() * (15))
     };
     this.optionsJob = [
       { value: 'Deep Learning', label: 'Deep Learning' },
@@ -114,11 +127,30 @@ class Home extends Component {
       { value: 'Natural language processing', label: 'Natural language processing' },
   ];
   this.handleChange = this.handleChange.bind(this);
+  this.getQuestion  = this.getQuestion.bind(this);
   }
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name] : value });
   };
+
+  getQuestion(){
+      let data = {}
+      switch(this.state.SelectedJob){
+        case "Deep Learning":
+        {
+          data = this.props.DL.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+          console.log(data);
+        }
+        case "machine Learning":
+          data = this.props.ML.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+        case "Software Development Engineer":
+          data = this.props.SW.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+        case "Natural language processing":
+          data = this.props.NLP.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+      }
+      
+  }
   render() {
       return (
           <div>
@@ -136,7 +168,10 @@ class Home extends Component {
                       value={this.state.HomeTeam}
                       onChange={(input) => this.setState({SelectedJob: input.value})}
                   />
-                  <Button color="primary m-5" style={{position:"absolute", right:'20%', width:"25%", fontSize: 20}}> Start the interview </Button>
+                  <Button color="primary m-5" style={{position:"absolute", right:'20%', width:"25%", fontSize: 20}}
+                          onClick={this.getQuestion} > 
+                    Start the interview 
+                  </Button>
               </div>
                   {/* <RecordVideo /> */}
                   { /*<ReactMediaRecorder
@@ -186,4 +221,4 @@ class Home extends Component {
       );
   }
 }
-export default withRouter(Home);
+export default withRouter(connect(mapStateToProps)(Home));

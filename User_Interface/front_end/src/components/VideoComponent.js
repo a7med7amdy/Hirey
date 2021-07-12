@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'video.js/dist/video-js.css';
-import videojs from 'video.js';
+// import videojs from 'video.js';
 import 'webrtc-adapter';
-import RecordRTC from 'recordrtc';
+// import RecordRTC from 'recordrtc';
 import axios from 'axios';
 
 
