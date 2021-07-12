@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import Select from "react-select";
+import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Video from './VideoComponent';
-import { withRouter } from 'react-router-dom';
 import SpeechRec from './SpeechRec';
+
+
+
+const mapStateToProps = state => {
+  return {
+    DL: state.dl,
+    NLP: state.nlp,
+    ML: state.ml,
+    SW: state.sw
+  }
+}
 
 // import VideoRecorder from 'react-video-recorder';
 // import { ReactMediaRecorder } from "react-media-recorder";
@@ -100,67 +114,111 @@ import SpeechRec from './SpeechRec';
 // };
 
 class Home extends Component {
-  // componentDidMount () {
-  //   const script = document.createElement("script");
-  //   script.src = "./index.js";
-  //   script.async = true;
-  //   document.body.appendChild(script);
-  // }
-    render() {
-        return (
-            <div>
-                <Header />             
-                    <br></br>
-                    <div id="mydiv">                 
-                        {/* <Video { ...videoJsOptions }/> */}
-                        <SpeechRec/> 
-                    </div>
-                    {/* <RecordVideo /> */}
-                   { /*<ReactMediaRecorder
-                          video
-                          render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
-                            <div>
-                              <p>{status}</p>
-                              <button onClick={startRecording}>Start Recording</button>
-                              <button onClick={stopRecording}>Stop Recording</button>
-                              <video src={mediaBlobUrl} controls autoplay loop />
-                            </div>
-                          )}
-                        />
-                          */}
-                {  /*  <VideoRecorder 
+  constructor(props) {
+    super(props);
+    this.state = {
+        SelectedJob: 'Deep Learning',
+        start: Math.floor(Math.random() * (15))
+    };
+    this.optionsJob = [
+      { value: 'Deep Learning', label: 'Deep Learning' },
+      { value: 'machine Learning', label: 'machine Learning' },
+      { value: 'Software Development Engineer', label: 'Software Development Engineer' },
+      { value: 'Natural language processing', label: 'Natural language processing' },
+  ];
+  this.handleChange = this.handleChange.bind(this);
+  this.getQuestion  = this.getQuestion.bind(this);
+  }
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name] : value });
+  };
+
+  getQuestion(){
+      let data = {}
+      switch(this.state.SelectedJob){
+        case "Deep Learning":
+        {
+          data = this.props.DL.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+          console.log(data);
+        }
+        case "machine Learning":
+          data = this.props.ML.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+        case "Software Development Engineer":
+          data = this.props.SW.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+        case "Natural language processing":
+          data = this.props.NLP.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+      }
+      
+  }
+  render() {
+      return (
+          <div>
+              <Header />             
+              <br></br>
+              <div id="mydiv">                 
+                  {/* <Video { ...videoJsOptions }/> */}
+                  {/* <SpeechRec/>  */}
+                  <p  size="lg" className="text-primary" style={{fontWeight: 'bold', fontSize: 35}}> Choose your dream job and be qualified for it </p>
+                  <Select 
+                      className="browser-default"
+                      style={{"Width":"50%"}}
+                      placeholder={this.state.SelectedJob}
+                      options={this.optionsJob}
+                      value={this.state.HomeTeam}
+                      onChange={(input) => this.setState({SelectedJob: input.value})}
+                  />
+                  <Button color="primary m-5" style={{position:"absolute", right:'20%', width:"25%", fontSize: 20}}
+                          onClick={this.getQuestion} > 
+                    Start the interview 
+                  </Button>
+              </div>
+                  {/* <RecordVideo /> */}
+                  { /*<ReactMediaRecorder
+                        video
+                        render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+                          <div>
+                            <p>{status}</p>
+                            <button onClick={startRecording}>Start Recording</button>
+                            <button onClick={stopRecording}>Stop Recording</button>
+                            <video src={mediaBlobUrl} controls autoplay loop />
+                          </div>
+                        )}
+                      />
+                        */}
+              {  /*  <VideoRecorder 
+                    height={180}
+                    width={320}
+                    style = {{width:'100'}}
+                    chunkSize={50}
+                    constraints={{
+                      audio: true,
+                      video: true
+                    }}
+                    // isOnInitially
+                    // timeLimit={1}
+                    onRecordingComplete={videoBlob => {
+                      // Do something with the video...
+                      console.log('videoBlob', videoBlob)
+              
+                    }}
+                    replayVideoAutoplayAndLoopOff
+                    showReplayControls
+                  />*/
+  }
+                  {/* <ZiggeoRecorder
+                      apiKey={API_KEY}
+                      video={VIDEO_TOKEN}
                       height={180}
                       width={320}
-                      style = {{width:'100'}}
-                      chunkSize={50}
-                      constraints={{
-                        audio: true,
-                        video: true
-                      }}
-                      // isOnInitially
-                      // timeLimit={1}
-                      onRecordingComplete={videoBlob => {
-                        // Do something with the video...
-                        console.log('videoBlob', videoBlob)
-                
-                      }}
-                      replayVideoAutoplayAndLoopOff
-                      showReplayControls
-                    />*/
-    }
-                    {/* <ZiggeoRecorder
-                        apiKey={API_KEY}
-                        video={VIDEO_TOKEN}
-                        height={180}
-                        width={320}
-                        onRecording={handleRecorderRecording}
-                        onUploading={handleRecorderUploading}
-                        // onRef={ref => (setRecorder(ref))}
-                    /> */}
-                    <br></br>
-                <Footer />
-            </div>
-        );
-    }
+                      onRecording={handleRecorderRecording}
+                      onUploading={handleRecorderUploading}
+                      // onRef={ref => (setRecorder(ref))}
+                  /> */}
+                  <br></br>
+              <Footer />
+          </div>
+      );
+  }
 }
-export default withRouter(Home);
+export default withRouter(connect(mapStateToProps)(Home));

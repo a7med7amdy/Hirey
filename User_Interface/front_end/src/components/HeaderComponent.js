@@ -1,9 +1,9 @@
 import React, { Component} from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button} from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
 import { NavLink} from 'react-router-dom';
 
 
-const serverURL = "http://localhost:5000";
+// const serverURL = "http://localhost:5000";
 
 class Header extends Component {
     

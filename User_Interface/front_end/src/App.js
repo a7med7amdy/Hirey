@@ -1,24 +1,28 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+import Feedback from './components/FeedbackComponent.js'
+import Home from './components/HomeComponent.js';
 import './App.css';
 
-import Home from './components/HomeComponent.js';
-import Feedback from './components/FeedbackComponent.js'
+
+const store = ConfigureStore();
+
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-      <Route path="/feedback">
-            <Feedback />
-        </Route>
-        
-        <Route path="/">
-            <Home />
-        </Route>
-        
-      </Switch>
-    </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/feedback">
+                <Feedback />
+            </Route>
+            <Route path="/">
+                <Home />
+            </Route>
+          </Switch>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
