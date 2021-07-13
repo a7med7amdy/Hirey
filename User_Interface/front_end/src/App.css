@@ -188,10 +188,9 @@ pa-menu-item.selected {
 }
 /* change player background color */
 #myVideo {
-  background-color: #ACB2F2;
- 
+  background-color: #acb2f2;
 }
-#mydiv{
+#mydiv {
   width: 80%;
   margin-left: 10%;
 }
@@ -217,4 +216,12 @@ pa-menu-item.selected {
   border-top: 4px solid #fc0;
   border-radius: 4px;
   margin-top:1%;
+}
+#videoElement {
+  margin-top: 1%;
+  margin-left: 10%;
+}
+
+.start {
+  margin-left: 48%;
 }

@@ -1,8 +1,49 @@
-import React from 'react';
+import React ,{ useEffect, useState }from 'react';
 import 'video.js/dist/video-js.css';
 import 'webrtc-adapter';
 import axios from 'axios';
 import 'videojs-record/dist/css/videojs.record.css';
+import Header from './HeaderComponent';
+import { Carousel } from "react-bootstrap";
+import image3 from "../Hirey.png";
+import image2 from "../1.jpg";
+import image1 from "../2.png";
+
+function ControlledCarousel() {
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+
+  return (
+    <Carousel activeIndex={index} onSelect={handleSelect}>
+      <Carousel.Item>
+        <img
+          className="d-block w-45 m-auto"
+          src={image1}
+          alt="First slide"
+        />
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-40 m-auto"
+          src={image2}
+          alt="Second slide"
+        />
+
+      </Carousel.Item>
+      <Carousel.Item>
+        <img
+          className="d-block w-40 m-auto"
+          src={image3}
+          alt="Third slide"
+        />
+
+      </Carousel.Item>
+    </Carousel>
+  );
+}
 
 class Video extends React.Component {
    state = { video:null,start:false,good:0,medium:0,bad:0};
@@ -33,7 +74,7 @@ class Video extends React.Component {
             bodyFormData.append('image', data); 
             axios({
               method: "post",
-              url: "http://b242d8cf1c26.ngrok.io/predict",
+              url: "http://d65db9b03dee.ngrok.io/predict",
               data: bodyFormData,
               
               headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
@@ -60,7 +101,8 @@ class Video extends React.Component {
         }
       }
     streamCamVideo() {
-      var constraints = { audio: true, video: { width: 1280, height: 720 } };
+      this.setState({start : true})
+      var constraints = { audio: false, video: { width: 1280, height: 720 } };
       navigator.mediaDevices.getUserMedia(constraints).then((mediaStream)=> {
           var video = document.querySelector("video");
           var canvas = document.createElement('canvas');
@@ -90,11 +132,23 @@ class Video extends React.Component {
     render() {
       return (
         <div>
+          <Header />    
+
           <div id="container">
-            <video autoPlay={true} id="videoElement" controls></video>
+            {!this.state.start && (
+            <div class="alert alert-primary m-2" role="alert">
+              <p>you have to attempt all the questions given to you to get the feedback <mark>if you pause the stream during answering, we will continue evaluating you.</mark> so, take care</p>
+              <p>if you are ready, click start button below and GOOD LUCK</p>
+            </div>
+              )}
+
+              {!this.state.start && <ControlledCarousel/>}
+
+           {this.state.start && <video autoPlay={true} id="videoElement" controls></video>}
           </div>
           <br/>
-          <button onClick={this.streamCamVideo}>Start streaming</button>
+          {!this.state.start && <button onClick={this.streamCamVideo} type="button" class="btn btn-primary btn-lg start">start</button> }
+          {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
         </div>
       );
     }

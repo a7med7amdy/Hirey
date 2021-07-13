@@ -7,6 +7,8 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Video from './VideoComponent';
 import SpeechRec from './SpeechRec';
+import { useHistory } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 
 
@@ -149,14 +151,14 @@ class Home extends Component {
         case "Natural language processing":
           data = this.props.NLP.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
       }
-      
+      this.props.history.push("/interview");
   }
   render() {
       return (
           <div>
               <Header />             
               <br></br>
-              <div id="mydiv">                 
+              <div id="mydiv">
                   {/* <Video { ...videoJsOptions }/> */}
                   {/* <SpeechRec/>  */}
                   <p  size="lg" className="text-primary" style={{fontWeight: 'bold', fontSize: 35}}> Choose your dream job and be qualified for it </p>
