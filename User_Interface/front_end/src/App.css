@@ -209,6 +209,10 @@ pa-menu-item.selected {
   font-family: cursive;
   font-size: 30px;
 }
+.font_cursive{
+  font-family: cursive;
+  font-size:25px;
+}
 #card{
   border-top: 4px solid #fc0;
   border-radius: 4px;

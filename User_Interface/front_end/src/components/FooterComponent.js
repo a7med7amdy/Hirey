@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Footer(props) {
     return(
-    <div className="footer bottom" style={{position: "absolute", left:0, bottom:0}}>
+    <div className="footer bottom" style={{position: "relative", left:0, bottom:0}}>
         
         <div className="container">
             <div className="row justify-content-center">             
