@@ -74,7 +74,7 @@ class Video extends React.Component {
             bodyFormData.append('image', data); 
             axios({
               method: "post",
-              url: "http://b242d8cf1c26.ngrok.io/predict",
+              url: "http://d65db9b03dee.ngrok.io/predict",
               data: bodyFormData,
               
               headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
@@ -102,7 +102,7 @@ class Video extends React.Component {
       }
     streamCamVideo() {
       this.setState({start : true})
-      var constraints = { audio: true, video: { width: 1280, height: 720 } };
+      var constraints = { audio: false, video: { width: 1280, height: 720 } };
       navigator.mediaDevices.getUserMedia(constraints).then((mediaStream)=> {
           var video = document.querySelector("video");
           var canvas = document.createElement('canvas');
