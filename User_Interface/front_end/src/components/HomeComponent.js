@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-// import Video from './VideoComponent';
-// import SpeechRec from './SpeechRec';
-// import { useHistory } from 'react-router-dom';
-// import { ThemeProvider } from 'styled-components';
-
-
+import Video from './VideoComponent';
+import SpeechRec from './SpeechRec';
+import { useHistory } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
@@ -20,6 +19,8 @@ const mapStateToProps = state => {
     SW: state.sw
   }
 }
+
+
 
 // import VideoRecorder from 'react-video-recorder';
 // import { ReactMediaRecorder } from "react-media-recorder";
@@ -162,7 +163,7 @@ class Home extends Component {
           console.log(data);
         }
       }
-      this.props.history.push("/interview");
+      this.props.history.push({pathname:"/interview",state: { data: data }});
   }
   render() {
       return (
