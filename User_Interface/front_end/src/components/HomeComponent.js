@@ -144,13 +144,24 @@ class Home extends Component {
         {
           data = this.props.DL.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
           console.log(data);
+          break;
         }
         case "machine Learning":
+        {
           data = this.props.ML.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+          break;
+        }
         case "Software Development Engineer":
+        {
           data = this.props.SW.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
-        case "Natural language processing":
+          console.log(data);
+          break;
+        }
+        default:
+        {
           data = this.props.NLP.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
+          console.log(data);
+        }
       }
       this.props.history.push({pathname:"/interview",state: { data: data }});
   }

@@ -167,7 +167,7 @@ class Video extends React.Component {
 
           <div id="container">
             {!this.state.start && (
-            <div class="alert alert-primary m-2" role="alert">
+            <div className="alert alert-primary m-2" role="alert">
               <p>you have to attempt all the questions given to you to get the feedback <mark>if you pause the stream during answering, we will continue evaluating you.</mark> so, take care</p>
               <p>if you are ready, click start button below and GOOD LUCK</p>
             </div>
@@ -179,7 +179,7 @@ class Video extends React.Component {
            {this.state.showQuestion && <p>{this.state.data[this.state.idx - 1].question}</p>}
           </div>
           <br/>
-          {!this.state.start && <button onClick={this.streamCamVideo} type="button" class="btn btn-primary btn-lg start">start</button> }
+          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary btn-lg start">start</button> }
           {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
           {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary btn-lg start">question</button>}
         </div>
