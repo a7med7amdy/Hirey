@@ -172,7 +172,7 @@ class Home extends Component {
               <div id="mydiv">
                   {/* <Video { ...videoJsOptions }/> */}
                   {/* <SpeechRec/>  */}
-                  <p  size="lg" className="text-primary" style={{fontWeight: 'bold', fontSize: 35}}> Choose your dream job and be qualified for it </p>
+                  <p  size="lg" className="text-primary" style={{fontWeight: 'bold', fontSize: 35}}> Choose your Dream Job and be Qualified for it </p>
                   <Select 
                       className="browser-default"
                       style={{"Width":"50%"}}
@@ -181,10 +181,12 @@ class Home extends Component {
                       value={this.state.HomeTeam}
                       onChange={(input) => this.setState({SelectedJob: input.value})}
                   />
-                  <Button color="primary m-5" style={{position:"absolute", right:'20%', width:"25%", fontSize: 20}}
+                  <Button color="primary m-5" style={{position: 'relative', left:'30%', width:"25%", fontSize: 20}}
                           onClick={this.getQuestion} > 
                     Start the interview 
                   </Button>
+                  <br/>  <br/> <br/>
+
               </div>
                   {/* <RecordVideo /> */}
                   { /*<ReactMediaRecorder
