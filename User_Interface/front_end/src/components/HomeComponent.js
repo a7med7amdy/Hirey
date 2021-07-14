@@ -9,8 +9,7 @@ import Video from './VideoComponent';
 import SpeechRec from './SpeechRec';
 import { useHistory } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-
-
+import { useDispatch } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
@@ -20,6 +19,8 @@ const mapStateToProps = state => {
     SW: state.sw
   }
 }
+
+
 
 // import VideoRecorder from 'react-video-recorder';
 // import { ReactMediaRecorder } from "react-media-recorder";
@@ -151,7 +152,7 @@ class Home extends Component {
         case "Natural language processing":
           data = this.props.NLP.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
       }
-      this.props.history.push("/interview");
+      this.props.history.push({pathname:"/interview",state: { data: data }});
   }
   render() {
       return (

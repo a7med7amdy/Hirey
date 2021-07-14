@@ -8,6 +8,15 @@ import { Carousel } from "react-bootstrap";
 import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
+import { useLocation } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    data: state.data
+  }
+}
 
 function ControlledCarousel() {
   const [index, setIndex] = useState(0);
@@ -46,7 +55,7 @@ function ControlledCarousel() {
 }
 
 class Video extends React.Component {
-   state = { video:null,start:false,good:0,medium:0,bad:0};
+   state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null};
     constructor(props) {
       super(props);
       this.streamCamVideo= this.streamCamVideo.bind(this);
@@ -54,6 +63,26 @@ class Video extends React.Component {
     
     componentDidMount() {
         this.interval = setInterval(() => this.takephoto(), 10000);
+        this.setState({data:this.props.location.state.data});
+        this.setState({mx:this.props.location.state.data.length});
+      }
+
+      takeQuestion = ()=>{
+        console.log(this.state.idx);
+        this.setState({showQuestion:true});
+        this.setState({idx:this.state.idx+1});
+        if(this.state.idx === this.state.mx){
+          this.setState({showQuestion:false},()=>{
+              console.log(this.state.showQuestion);
+              this.setState({start:false});
+          });
+          console.log("hiiii");
+          this.state.mediaStream.getVideoTracks()[0].stop();
+          
+          // TODO
+          //redirect to statistic page
+          //this.props.history.push({pathname:"/"});
+        }
       }
 
       takephoto=()=>{
@@ -104,6 +133,7 @@ class Video extends React.Component {
       this.setState({start : true})
       var constraints = { audio: false, video: { width: 1280, height: 720 } };
       navigator.mediaDevices.getUserMedia(constraints).then((mediaStream)=> {
+        this.setState({mediaStream:mediaStream})
           var video = document.querySelector("video");
           var canvas = document.createElement('canvas');
           canvas.setAttribute('width', 1280);
@@ -112,10 +142,11 @@ class Video extends React.Component {
          
           video.srcObject = mediaStream;
           video.onloadedmetadata = (e)=> {
-            video.play();
+            console.log(this.state.data);
+            console.log(this.state.mx);            
+            video.play(); 
             this.setState({start : true})
             this.setState({video : video})
-
             canvas.width = 1280;
              canvas.height = 720;
              var context = canvas.getContext('2d');
@@ -144,17 +175,20 @@ class Video extends React.Component {
 
               {!this.state.start && <ControlledCarousel/>}
 
-           {this.state.start && <video autoPlay={true} id="videoElement" controls></video>}
+           {this.state.start && <video autoPlay={true} id="videoElement"></video>}
+           {this.state.showQuestion && <p>{this.state.data[this.state.idx - 1].question}</p>}
           </div>
           <br/>
           {!this.state.start && <button onClick={this.streamCamVideo} type="button" class="btn btn-primary btn-lg start">start</button> }
           {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
+          {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary btn-lg start">question</button>}
         </div>
       );
     }
 }
 
-  export default Video;
+  //export default Video;
+  export default withRouter(connect(mapStateToProps)(Video));
 
 
   

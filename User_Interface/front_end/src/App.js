@@ -15,7 +15,7 @@ function App() {
     <Provider store={store}>
         <BrowserRouter>
           <Switch>
-          <Route path="/interview">
+          <Route path="/interview" component={ Video }>
                 <Video />
             </Route>
             
