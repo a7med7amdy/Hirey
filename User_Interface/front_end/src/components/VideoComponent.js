@@ -8,7 +8,6 @@ import { Carousel } from "react-bootstrap";
 import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
-import { useLocation } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -55,7 +54,7 @@ function ControlledCarousel() {
 }
 
 class Video extends React.Component {
-   state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null};
+   state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,startAnswering:false};
     constructor(props) {
       super(props);
       this.streamCamVideo= this.streamCamVideo.bind(this);
@@ -67,10 +66,28 @@ class Video extends React.Component {
         this.setState({mx:this.props.location.state.data.length});
       }
 
+      countDown = ()=>{
+          setTimeout( ()=>{
+            alert("GOOOO!!!");
+            this.setState({startAnswering:true});
+          }, 30000);
+      }
+
       takeQuestion = ()=>{
+
+
+        this.setState({startAnswering:false});
         console.log(this.state.idx);
-        this.setState({showQuestion:true});
+        this.setState({showQuestion:true},()=>{
+          if(this.state.idx <= this.state.mx){
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = this.state.data[this.state.idx - 1].question;
+            window.speechSynthesis.speak(msg);
+          }
+        });
         this.setState({idx:this.state.idx+1});
+        if(this.state.idx !== this.state.mx)
+          this.countDown();
         if(this.state.idx === this.state.mx){
           this.setState({showQuestion:false},()=>{
               console.log(this.state.showQuestion);
@@ -86,7 +103,8 @@ class Video extends React.Component {
       }
 
       takephoto=()=>{
-        if(this.state.start === true){
+        if(this.state.start === true && this.state.startAnswering === true){
+            console.log("i'm evaluating!!!");
             var canvas = document.createElement('canvas');
             canvas.setAttribute('width', 1280);
             canvas.setAttribute('height', 720);
@@ -103,7 +121,7 @@ class Video extends React.Component {
             bodyFormData.append('image', data); 
             axios({
               method: "post",
-              url: "http://d65db9b03dee.ngrok.io/predict",
+              url: "http://b90f643f4f25.ngrok.io/predict",
               data: bodyFormData,
               
               headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
@@ -164,19 +182,34 @@ class Video extends React.Component {
       return (
         <div>
           <Header />    
-
           <div id="container">
             {!this.state.start && (
             <div className="alert alert-primary m-2" role="alert">
-              <p>you have to attempt all the questions given to you to get the feedback <mark>if you pause the stream during answering, we will continue evaluating you.</mark> so, take care</p>
-              <p>if you are ready, click start button below and GOOD LUCK</p>
+              <p>You have to attempt all the questions given to you to get the feedback</p>
+              <p>There will be a question button, if you clicked on, it will show you the next question</p>
+              <p>After showing the question, you will get 30 secs to prepare your self to answer it</p>
+              <p>After 30 secs, an alert will be shown to you with a message GOOOO!!!, close it and start answering</p>
+              <p>You will be evaluated since then</p>
+              <p>After finishing your answer, press the next question immediately as if you won't and stoppped answering, you will be evaluated badly for that</p>
+              <p>Please, make sure that your face completely appears in the window to give the best results</p>
+              <p>If you are ready, click start button below and GOOD LUCK</p>
             </div>
               )}
 
               {!this.state.start && <ControlledCarousel/>}
 
+              {this.state.showQuestion && (<div class="card">
+                                                <div class="card-header">
+                                                  Questions
+                                                </div>
+                                                <div class="card-body">
+                                                  <blockquote class="blockquote mb-0">
+                                                    <p>{this.state.data[this.state.idx - 1].question}</p>
+                                                  </blockquote>
+                                                </div>
+                                              </div>)}
+
            {this.state.start && <video autoPlay={true} id="videoElement"></video>}
-           {this.state.showQuestion && <p>{this.state.data[this.state.idx - 1].question}</p>}
           </div>
           <br/>
           {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary btn-lg start">start</button> }
