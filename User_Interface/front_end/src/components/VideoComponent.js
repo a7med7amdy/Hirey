@@ -8,6 +8,9 @@ import { Carousel } from "react-bootstrap";
 import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
+
+import Recvoice from "./VoiceRecording";
+
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -57,9 +60,10 @@ class Video extends React.Component {
    state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,startAnswering:false};
     constructor(props) {
       super(props);
-      this.streamCamVideo= this.streamCamVideo.bind(this);
+      this.streamCamVideo = this.streamCamVideo.bind(this);
+
     }
-    
+
     componentDidMount() {
         this.interval = setInterval(() => this.takephoto(), 10000);
         this.setState({data:this.props.location.state.data});
@@ -101,6 +105,7 @@ class Video extends React.Component {
           //this.props.history.push({pathname:"/"});
         }
       }
+
 
       takephoto=()=>{
         if(this.state.start === true && this.state.startAnswering === true){
@@ -214,7 +219,9 @@ class Video extends React.Component {
           <br/>
           {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary btn-lg start">start</button> }
           {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
+          <Recvoice/>
           {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary btn-lg start">question</button>}
+
         </div>
       );
     }
