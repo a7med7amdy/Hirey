@@ -8,6 +8,7 @@ import { Carousel } from "react-bootstrap";
 import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
+import Recvoice from "./VoiceRecording";
 
 function ControlledCarousel() {
   const [index, setIndex] = useState(0);
@@ -49,12 +50,14 @@ class Video extends React.Component {
    state = { video:null,start:false,good:0,medium:0,bad:0};
     constructor(props) {
       super(props);
-      this.streamCamVideo= this.streamCamVideo.bind(this);
+      this.streamCamVideo = this.streamCamVideo.bind(this);
+
     }
-    
+
     componentDidMount() {
         this.interval = setInterval(() => this.takephoto(), 10000);
       }
+
 
       takephoto=()=>{
         if(this.state.start === true){
@@ -149,6 +152,7 @@ class Video extends React.Component {
           <br/>
           {!this.state.start && <button onClick={this.streamCamVideo} type="button" class="btn btn-primary btn-lg start">start</button> }
           {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
+          <Recvoice/>
         </div>
       );
     }
