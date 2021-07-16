@@ -85,7 +85,7 @@ const audioType = 'audio/*';
 
 class Video extends React.Component {
    state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,mediaStream2:null,startAnswering:false, recording: false,
-    audios: [],};
+    audios: [],showQuestionButton:true};
     constructor(props) {
       super(props);
       this.streamCamVideo = this.streamCamVideo.bind(this);
@@ -101,6 +101,7 @@ class Video extends React.Component {
 
       countDown = ()=>{
           setTimeout( ()=>{
+            this.setState({showQuestionButton:true});
             //alert("GOOOO!!!");
             this.setState({startAnswering:true});
             ///////////////////////////////////
@@ -140,6 +141,7 @@ class Video extends React.Component {
       }
 
       takeQuestion = ()=>{
+        this.setState({showQuestionButton:false});
         if(this.state.idx>0){
           this.stopRecording()
           this.state.mediaStream2.getAudioTracks()[0].stop();
@@ -378,7 +380,7 @@ ref={a => {
           {/* <br/> */}
           {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>start</button> }
           {/* <Recvoice/> */}
-          {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>question</button>}
+          {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>question</button>}
 
         </div>
       );
