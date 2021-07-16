@@ -45,7 +45,7 @@ const videoJsOptions = {
 };
 
 function SpeechRec() {
-  const { transcript, resetTranscript } = useSpeechRecognition();  
+  const { transcript  } = useSpeechRecognition();  
   const handleListing = () => {
     SpeechRecognition.startListening({
       continuous: true,

@@ -28,6 +28,7 @@
     "react-select": "^4.3.1",
     "react-speech": "^1.0.2",
     "react-speech-recognition": "^3.8.0",
+    "react-timer-hook": "^3.0.4",
     "react-video-recorder": "^3.17.2",
     "react-webcam": "^5.2.4",
     "reactstrap": "^8.9.0",

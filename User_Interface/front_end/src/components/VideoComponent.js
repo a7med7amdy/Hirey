@@ -9,6 +9,7 @@ import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
 
+import { useTimer } from 'react-timer-hook';
 import Recvoice from "./VoiceRecording";
 
 import { withRouter } from 'react-router-dom';
@@ -18,6 +19,29 @@ const mapStateToProps = state => {
   return {
     data: state.data
   }
+}
+
+function MyTimer({ expiryTimestamp }) {
+  const {
+    seconds,
+    minutes,
+    restart
+  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+  function set()
+  {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 30);
+    restart(time)
+  }
+  return (
+    <div style={{display:"inline-block", position:'absolute', left:'80%', bottom:"40%"}}>
+      <h1> Be Ready  </h1>
+      <div style={{fontSize: '100px'}}>
+        <span>{minutes}</span>:<span>{seconds}</span>
+      </div>
+      {seconds === 0 ? <p style={{fontSize:25, color:'blue', fontWeight:'bold'}}> Start answer </p> : null}
+    </div>
+  );
 }
 
 function ControlledCarousel() {
@@ -303,9 +327,11 @@ deleteAudio(audioURL) {
 
 ////////////////////////////////////////////////
     render() {
+      const time = new Date();
+      time.setSeconds(time.getSeconds() + 30);
       return (
         <div>
-          <Header />    
+          <Header show = "false"/>    
           <div id="container">
             {!this.state.start && (
             <div className="alert alert-primary m-2" role="alert">
@@ -358,9 +384,5 @@ ref={a => {
       );
     }
 }
-
-  //export default Video;
-  export default withRouter(connect(mapStateToProps)(Video));
-
-
-  
+//export default Video;
+export default withRouter(connect(mapStateToProps)(Video));

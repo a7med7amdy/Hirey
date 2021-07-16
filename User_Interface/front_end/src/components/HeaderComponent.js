@@ -12,6 +12,7 @@ class Header extends Component {
     
         this.state = {
             isNavOpen: false,
+            show: true
         };
     }
 
@@ -19,6 +20,11 @@ class Header extends Component {
         this.setState({
             isNavOpen: !this.state.isNavOpen
     });
+    }
+
+    componentDidMount(){
+        if(this.props.show === "false")
+            this.setState({show: false})
     }
     
     render() {
@@ -29,7 +35,7 @@ class Header extends Component {
                     <div className="container ml-4"> 
                         <NavbarToggler onClick={this.toggleNav} />
                         {/* <img src='images/log.jpg' height="70" width="70" /> */}
-                        <NavbarBrand  href="/"> Mock Interview System</NavbarBrand>
+                        <NavbarBrand  href="/" style={{fontWeight:'bold', fontSize:35}}> HireY</NavbarBrand>
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav className="m-auto" navbar>
                                 <NavItem className="ml-4">
@@ -45,16 +51,18 @@ class Header extends Component {
                         </Collapse>
                     </div>
                 </Navbar>
-                <Jumbotron className="rounded-0">
-                    <div className="container mb-5">
-                        <div className="row row-header">
-                            <div className="col-12 col-m-6">
-                                <h1>Mock Interview System </h1>
-                                <p className="ml-4 mt-4">An automated Mock Interview System to Test for a job dream, Your Perfect Career Guide </p>
+                {this.state.show !== false ?
+                    <Jumbotron className="rounded-0">
+                        <div className="container mb-5">
+                            <div className="row row-header">
+                                <div className="col-12 col-m-6">
+                                    <h1>Mock Interview System </h1>
+                                    <p className="ml-4 mt-4">An automated Mock Interview System to Test for a job dream, Your Perfect Career Guide </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Jumbotron>
+                    </Jumbotron> : null
+                }
 
             </React.Fragment>
         );

@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import Video from './VideoComponent';
-import SpeechRec from './SpeechRec';
-import { useHistory } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { useDispatch } from 'react-redux';
+// import Video from './VideoComponent';
+// import SpeechRec from './SpeechRec';
+// import { useHistory } from 'react-router-dom';
+// import { ThemeProvider } from 'styled-components';
+// import { useDispatch } from 'react-redux';
 
 const mapStateToProps = state => {
   return {
@@ -116,21 +116,31 @@ const mapStateToProps = state => {
 //   }
 // };
 
+
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
         SelectedJob: 'Deep Learning',
-        start: Math.floor(Math.random() * (15))
+        start: Math.floor(Math.random() * (15)),
+        seconds: 0
     };
     this.optionsJob = [
       { value: 'Deep Learning', label: 'Deep Learning' },
-      { value: 'machine Learning', label: 'machine Learning' },
+      { value: 'machine Learning', label: 'Machine Learning' },
       { value: 'Software Development Engineer', label: 'Software Development Engineer' },
-      { value: 'Natural language processing', label: 'Natural language processing' },
+      { value: 'Natural language processing', label: 'Natural Language Processing' },
   ];
   this.handleChange = this.handleChange.bind(this);
   this.getQuestion  = this.getQuestion.bind(this);
+  this.setSeconds = this.setSeconds.bind(this);
+  }
+  setSeconds(s){
+    // if(this.state.seconds > 0)
+    // {
+
+    // }
   }
   handleChange(event) {
     const { name, value } = event.target;
@@ -165,7 +175,7 @@ class Home extends Component {
       }
       this.props.history.push({pathname:"/interview",state: { data: data }});
   }
-  render() {
+  render() { 
       return (
           <div>
               <Header />             
@@ -182,11 +192,11 @@ class Home extends Component {
                       value={this.state.HomeTeam}
                       onChange={(input) => this.setState({SelectedJob: input.value})}
                   />
-                  <Button color="primary m-5" style={{position: 'relative', left:'30%', width:"25%", fontSize: 20}}
+                  <Button color="primary m-5" style={{position: 'relative', left:'60%', width:"25%", fontSize: 24, fontWeight:'bold'}}
                           onClick={this.getQuestion} > 
                     Start the interview 
                   </Button>
-                  <br/>  <br/> <br/>
+                  <br/>  <br/> 
 
               </div>
                   {/* <RecordVideo /> */}
