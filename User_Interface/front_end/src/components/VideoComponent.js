@@ -9,6 +9,7 @@ import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
 
+import { useTimer } from 'react-timer-hook';
 import Recvoice from "./VoiceRecording";
 
 import { withRouter } from 'react-router-dom';
@@ -18,6 +19,29 @@ const mapStateToProps = state => {
   return {
     data: state.data
   }
+}
+
+function MyTimer({ expiryTimestamp }) {
+  const {
+    seconds,
+    minutes,
+    restart
+  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+  function set()
+  {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 30);
+    restart(time)
+  }
+  return (
+    <div style={{display:"inline-block", position:'absolute', left:'80%', bottom:"40%"}}>
+      <h1> Be Ready  </h1>
+      <div style={{fontSize: '100px'}}>
+        <span>{minutes}</span>:<span>{seconds}</span>
+      </div>
+      {seconds === 0 ? <p style={{fontSize:25, color:'blue', fontWeight:'bold'}}> Start answer </p> : null}
+    </div>
+  );
 }
 
 function ControlledCarousel() {
@@ -184,51 +208,51 @@ class Video extends React.Component {
         }); // always check for errors at the end.
 }
     render() {
+      const time = new Date();
+      time.setSeconds(time.getSeconds() + 30);
       return (
         <div>
-          <Header />    
+          <Header show = "false"/>    
           <div id="container">
             {!this.state.start && (
-            <div className="alert alert-primary m-2" role="alert">
-              <p>You have to attempt all the questions given to you to get the feedback</p>
-              <p>There will be a question button, if you clicked on, it will show you the next question</p>
-              <p>After showing the question, you will get 30 secs to prepare your self to answer it</p>
-              <p>After 30 secs, an alert will be shown to you with a message GOOOO!!!, close it and start answering</p>
-              <p>You will be evaluated since then</p>
-              <p>After finishing your answer, press the next question immediately as if you won't and stoppped answering, you will be evaluated badly for that</p>
-              <p>Please, make sure that your face completely appears in the window to give the best results</p>
-              <p>If you are ready, click start button below and GOOD LUCK</p>
-            </div>
-              )}
+                <div className="alert alert-primary m-2" role="alert">
+                  <p>You have to attempt all the questions given to you to get the feedback</p>
+                  <p>There will be a question button, if you clicked on, it will show you the next question</p>
+                  <p>After showing the question, you will get 30 secs to prepare your self to answer it</p>
+                  <p>After 30 secs, an alert will be shown to you with a message GOOOO!!!, close it and start answering</p>
+                  <p>You will be evaluated since then</p>
+                  <p>After finishing your answer, press the next question immediately as if you won't and stoppped answering, you will be evaluated badly for that</p>
+                  <p>Please, make sure that your face completely appears in the window to give the best results</p>
+                  <p>If you are ready, click start button below and GOOD LUCK</p>
+                </div>
+            )}
 
-              {!this.state.start && <ControlledCarousel/>}
+            {!this.state.start && <ControlledCarousel/>}
 
-              {this.state.showQuestion && (<div class="card">
-                                                <div class="card-header">
-                                                  Questions
-                                                </div>
-                                                <div class="card-body">
-                                                  <blockquote class="blockquote mb-0">
-                                                    <p>{this.state.data[this.state.idx - 1].question}</p>
-                                                  </blockquote>
-                                                </div>
-                                              </div>)}
+            {this.state.showQuestion && (<div class="card">
+                                            <div class="card-header">
+                                              Questions
+                                            </div>
+                                            <div class="card-body">
+                                              <blockquote class="blockquote mb-0">
+                                                <p>{this.state.data[this.state.idx - 1].question}</p>
+                                              </blockquote>
+                                            </div>
+                                          </div>)}
 
-           {this.state.start && <video autoPlay={true} id="videoElement"></video>}
+          {this.state.start && <video autoPlay={true} id="videoElement" style={{width:"60%"}}></video>}
+          {this.state.showQuestion && <MyTimer expiryTimestamp={time}/>}
           </div>
-          <br/>
-          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary btn-lg start">start</button> }
+          {/* <br/> */}
+          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}> Start </button> }
           {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
           <Recvoice/>
-          {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary btn-lg start">question</button>}
+          
+          {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
 
         </div>
       );
     }
 }
-
-  //export default Video;
-  export default withRouter(connect(mapStateToProps)(Video));
-
-
-  
+//export default Video;
+export default withRouter(connect(mapStateToProps)(Video));
