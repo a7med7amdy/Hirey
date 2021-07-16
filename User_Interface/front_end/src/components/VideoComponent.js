@@ -56,36 +56,77 @@ function ControlledCarousel() {
   );
 }
 
+
+const audioType = 'audio/*';
+
 class Video extends React.Component {
-   state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,startAnswering:false};
+   state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,mediaStream2:null,startAnswering:false, recording: false,
+    audios: [],};
     constructor(props) {
       super(props);
       this.streamCamVideo = this.streamCamVideo.bind(this);
-
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.interval = setInterval(() => this.takephoto(), 10000);
         this.setState({data:this.props.location.state.data});
         this.setState({mx:this.props.location.state.data.length});
+
+        
       }
 
       countDown = ()=>{
           setTimeout( ()=>{
             alert("GOOOO!!!");
             this.setState({startAnswering:true});
-          }, 30000);
+            ///////////////////////////////////
+        navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream)=> {
+          this.setState({mediaStream2:mediaStream})
+        // show it to user
+        // this.audio.src = window.URL.createObjectURL(stream);
+        if ('srcObject' in this) {
+          try {
+            this.srcObject = mediaStream;
+          } catch (err) {
+            if (err.name != "TypeError") {
+              throw err;
+            }
+            // Even if they do, they may only support MediaStream
+            this.audio.src = URL.createObjectURL(mediaStream);
+           }
+          } else {
+            this.audio.src = URL.createObjectURL(new Blob([mediaStream], {type: audioType}));
+          }
+        this.audio.play();
+        console.log(mediaStream);
+        // init recording
+        this.mediaRecorder = new MediaRecorder(mediaStream);
+        // init data storage for video chunks
+        this.chunks = [];
+        // listen for data from media recorder
+        this.mediaRecorder.ondataavailable = e => {
+          if (e.data && e.data.size > 0) {
+            this.chunks.push(e.data);
+          }
+        };
+            /////////////////////////////////////
+            this.startRecording()
+      });
+          }, 3000);
       }
 
       takeQuestion = ()=>{
-
-
+        if(this.state.idx>0){
+          this.stopRecording()
+          this.state.mediaStream2.getAudioTracks()[0].stop();
+        }
         this.setState({startAnswering:false});
         console.log(this.state.idx);
         this.setState({showQuestion:true},()=>{
           if(this.state.idx <= this.state.mx){
             var msg = new SpeechSynthesisUtterance();
             msg.text = this.state.data[this.state.idx - 1].question;
+            console.log(this.state.data[this.state.idx - 1].question)
             window.speechSynthesis.speak(msg);
           }
         });
@@ -98,6 +139,7 @@ class Video extends React.Component {
               this.setState({start:false});
           });
           console.log("hiiii");
+          this.state.mediaStream2.getAudioTracks()[0].stop();
           this.state.mediaStream.getVideoTracks()[0].stop();
           
           // TODO
@@ -156,6 +198,7 @@ class Video extends React.Component {
       this.setState({start : true})
       var constraints = { audio: false, video: { width: 1280, height: 720 } };
       navigator.mediaDevices.getUserMedia(constraints).then((mediaStream)=> {
+        console.log(mediaStream)
         this.setState({mediaStream:mediaStream})
           var video = document.querySelector("video");
           var canvas = document.createElement('canvas');
@@ -183,6 +226,82 @@ class Video extends React.Component {
           console.log(err.name + ": " + err.message);
         }); // always check for errors at the end.
 }
+
+
+
+//////////////////////////////////////////
+
+startRecording() {
+  //e.preventDefault();
+  // wipe old data chunks
+  this.chunks = [];
+  // start recorder with 10ms buffer
+  this.mediaRecorder.start(10);
+  // say that we're recording
+  this.setState({recording: true});
+}
+
+stopRecording() {
+  //e.preventDefault();
+  // stop the recorder
+  // if(this.state.recording === true){
+    this.mediaRecorder.stop();
+    // say that we're not recording
+    this.setState({recording: false});
+    // save the video to memory
+    this.saveAudio();    
+}
+saveAudio() {
+  // convert saved chunks to blob
+  const blob = new Blob(this.chunks, {type: audioType});
+  // this.chunks = [];
+  console.log(blob);
+  // generate video url from blob
+  const audioURL = window.URL.createObjectURL(blob);
+  // // append videoURL to list of saved videos for rendering
+  // const audios = this.state.audios.concat([audioURL]);
+  // this.setState({audios});
+
+  // ------------------->this to download and then send AUDIO
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  a.href = audioURL;
+  a.download = 'recordingName' + '-fwr-recording.wav';
+  a.click();
+  window.URL.revokeObjectURL(audioURL);
+  document.body.removeChild(a);
+
+  let data = new FormData();
+  data.append("file/wav", a);
+  axios({
+      method: "post",
+      url: "http://c3952a5b24d5.ngrok.io/predictVoice",
+      data: data,
+      
+      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
+    })
+    .then((res) => {
+      console.log(res);
+      return res;
+    });
+}
+
+deleteAudio(audioURL) {
+  // filter out current videoURL from the list of saved videos
+  const audios = this.state.audios.filter(a => a !== audioURL);
+  this.setState({audios});
+}
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////
     render() {
       return (
         <div>
@@ -215,11 +334,24 @@ class Video extends React.Component {
                                               </div>)}
 
            {this.state.start && <video autoPlay={true} id="videoElement"></video>}
+
+
+
+           {this.state.start && (<audio
+
+
+style={{width: 400}}
+ref={a => {
+  this.audio = a;
+}}>
+<p>Audio stream not available. </p>
+</audio>)}
+
+
           </div>
           <br/>
           {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary btn-lg start">start</button> }
-          {/* <button onClick={this.streamCamVideo}>Start streaming</button> */}
-          <Recvoice/>
+          {/* <Recvoice/> */}
           {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary btn-lg start">question</button>}
 
         </div>
