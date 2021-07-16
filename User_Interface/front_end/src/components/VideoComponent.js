@@ -101,7 +101,7 @@ class Video extends React.Component {
 
       countDown = ()=>{
           setTimeout( ()=>{
-            alert("GOOOO!!!");
+            //alert("GOOOO!!!");
             this.setState({startAnswering:true});
             ///////////////////////////////////
         navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream)=> {
@@ -136,7 +136,7 @@ class Video extends React.Component {
             /////////////////////////////////////
             this.startRecording()
       });
-          }, 3000);
+          }, 30000);
       }
 
       takeQuestion = ()=>{
@@ -359,9 +359,9 @@ deleteAudio(audioURL) {
                                                 </div>
                                               </div>)}
 
-           {this.state.start && <video autoPlay={true} id="videoElement"></video>}
+           {this.state.start && <video autoPlay={true} id="videoElement" style={{width:"60%"}}></video>}
 
-
+           {this.state.showQuestion && <MyTimer expiryTimestamp={time}/>}
 
            {this.state.start && (<audio
 
@@ -375,10 +375,10 @@ ref={a => {
 
 
           </div>
-          <br/>
-          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary btn-lg start">start</button> }
+          {/* <br/> */}
+          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>start</button> }
           {/* <Recvoice/> */}
-          {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary btn-lg start">question</button>}
+          {this.state.start && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>question</button>}
 
         </div>
       );
