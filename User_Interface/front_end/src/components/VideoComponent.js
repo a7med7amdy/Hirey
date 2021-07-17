@@ -30,7 +30,7 @@ function MyTimer({ expiryTimestamp }) {
   function set()
   {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 3);
+    time.setSeconds(time.getSeconds() + 10);
     restart(time)
   }
   return (
@@ -137,7 +137,7 @@ class Video extends React.Component {
             /////////////////////////////////////
             this.startRecording()
       });
-          }, 30000);
+          }, 10000);
       }
 
       takeQuestion = ()=>{
@@ -331,7 +331,7 @@ deleteAudio(audioURL) {
 ////////////////////////////////////////////////
     render() {
       const time = new Date();
-      time.setSeconds(time.getSeconds() + 3);
+      time.setSeconds(time.getSeconds() + 10);
       return (
         <div>
           <Header show = "false"/>    
