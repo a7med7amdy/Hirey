@@ -141,6 +141,7 @@ class Video extends React.Component {
       }
 
       takeQuestion = ()=>{
+        console.log("qqq")
         this.setState({showQuestionButton:false});
         if(this.state.idx>0){
           this.stopRecording()
