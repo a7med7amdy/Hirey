@@ -11,7 +11,6 @@
     "bootstrap-social": "^5.1.1",
     "chart.js": "^3.4.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",

@@ -283,30 +283,31 @@ stopRecording() {
 }
 saveAudio() {
   // convert saved chunks to blob
-
-  const blob = new Blob(this.chunks, {type: audioType});
-   this.chunks = [];
+    const blob = new Blob(this.chunks, {type: 'audio/wav'});
+    this.chunks = [];
   // generate video url from blob
-  const audioURL = window.URL.createObjectURL(blob);
+  // const audioURL = window.URL.createObjectURL(blob);
   // append videoURL to list of saved videos for rendering
   //const audios = this.state.audios.concat([audioURL]);
   //this.setState({audios});
 
  // ------------------->this to download and then send AUDIO
- var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
- a.href = audioURL;
- a.download = 'recordingName' + '-fwr-recording.wav';
- a.click();
- window.URL.revokeObjectURL(audioURL);
- document.body.removeChild(a);
- 
-  let data = new FormData();
-  data.append("file/wav", a);
-  axios({
+  // var a = document.createElement("a");
+  //   document.body.appendChild(a);
+  //   a.style = "display: none";
+  // a.href = audioURL;
+  // a.download = 'recordingName' + '-fwr-recording.wav';
+  // a.click();
+  // window.URL.revokeObjectURL(audioURL);
+  // document.body.removeChild(a);
+
+    let data = new FormData();
+    data.append('file', blob, 'record.wav');
+    let dataSim = new FormData();
+    dataSim.append('file', blob, 'record2.wav');
+    axios({
       method: "post",
-      url: "http://21f496c0c402.ngrok.io/predictVoice",
+      url: "http://bcc47de5c2a2.ngrok.io/predictVoice",
       data: data,
       
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
@@ -315,7 +316,18 @@ saveAudio() {
       console.log(res);
       return res;
     });
-}
+    axios({
+      method: "post",
+      url: "http://bcc47de5c2a2.ngrok.io/predictSimilarity",
+      // data: [dataSim, this.state.data[this.state.idx - 1].answer1] ,
+      data: this.state.data[this.state.idx - 1].answer1,
+      headers: {'Content-Type': `multipart/form-data`}
+    })
+    .then((res) => {
+      console.log(res);
+      // return res;
+    });
+  }
 /*
 deleteAudio(audioURL) {
   // filter out current videoURL from the list of saved videos
@@ -323,13 +335,6 @@ deleteAudio(audioURL) {
   this.setState({audios});
 }
 */
-
-
-
-
-
-
-
 
 ////////////////////////////////////////////////
   render() {
@@ -354,12 +359,12 @@ deleteAudio(audioURL) {
 
             {!this.state.start && <ControlledCarousel/>}
 
-            {this.state.showQuestion && (<div class="card">
-                                              <div class="card-header">
+            {this.state.showQuestion && (<div className="card">
+                                              <div className="card-header">
                                                 Questions
                                               </div>
-                                              <div class="card-body">
-                                                <blockquote class="blockquote mb-0">
+                                              <div className="card-body">
+                                                <blockquote className="blockquote mb-0">
                                                   <p>{this.state.data[this.state.idx - 1].question}</p>
                                                 </blockquote>
                                               </div>
@@ -380,7 +385,7 @@ deleteAudio(audioURL) {
 
         {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
         {/* <Recvoice/> */}
-        {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
+        {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" className="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
 
       </div>
     );
