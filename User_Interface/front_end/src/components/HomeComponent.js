@@ -196,7 +196,6 @@ class Home extends Component {
                           onClick={this.getQuestion} > 
                     Start the interview 
                   </Button>
-                  <br/>  <br/> 
 
               </div>
                   {/* <RecordVideo /> */}
@@ -241,7 +240,6 @@ class Home extends Component {
                       onUploading={handleRecorderUploading}
                       // onRef={ref => (setRecorder(ref))}
                   /> */}
-                  <br></br>
               <Footer />
           </div>
       );
