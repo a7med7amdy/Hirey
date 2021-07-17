@@ -295,7 +295,7 @@ class Video extends React.Component {
     data.append('file', blob, 'record.wav');
     axios({
         method: "post",
-        url: "http://a3b093d836e3.ngrok.io/predictVoice",
+        url: "http://006a4c167f1f.ngrok.io/predictVoice",
         data: data,
         headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
       })
@@ -305,7 +305,7 @@ class Video extends React.Component {
       });
       axios({
         method: "post",
-        url: "http://a3b093d836e3.ngrok.io/predictSimilarity",
+        url: "http://006a4c167f1f.ngrok.io/predictSimilarity",
         data: this.state.data[this.state.idx - 1].answer1,
         headers: {'Content-Type': `multipart/form-data`},
       })
