@@ -8,7 +8,7 @@ import { Carousel } from "react-bootstrap";
 import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
-
+import getBlobDuration from 'get-blob-duration'
 import { useTimer } from 'react-timer-hook';
 import Recvoice from "./VoiceRecording";
 
@@ -81,7 +81,7 @@ function ControlledCarousel() {
 }
 
 
-const audioType = 'audio/*';
+const audioType = 'audio/wav';
 
 class Video extends React.Component {
    state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,mediaStream2:null,startAnswering:false, recording: false,
@@ -277,35 +277,21 @@ stopRecording() {
     // save the video to memory
     this.saveAudio();    
 }
+
 saveAudio() {
   // convert saved chunks to blob
 
   const blob = new Blob(this.chunks, {type: 'audio/wav'});
-  // this.chunks = [];
-  // generate video url from blob
-  //const audioURL = window.URL.createObjectURL(blob);
-  // // append videoURL to list of saved videos for rendering
-  // const audios = this.state.audios.concat([audioURL]);
-  // this.setState({audios});
-
+   this.chunks = [];
   // ------------------->this to download and then send AUDIO
- // var a = document.createElement("a");
-  //document.body.appendChild(a);
-  //a.style = "display: none";
- // a.href = audioURL;
- // a.download = 'record.wav';
- // a.click();
- // window.URL.revokeObjectURL(audioURL);
- // document.body.removeChild(a);
- 
+  
   let data = new FormData();
-  data.append('file', blob, 'record.wav');
+  data.append("file", blob,'record.wav');
   axios({
       method: "post",
-      url: "http://21f496c0c402.ngrok.io/predictVoice",
+      url: "http://48e2beaf768f.ngrok.io/predictVoice",
       data: data,
-      
-      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
+      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
     .then((res) => {
       console.log(res);
