@@ -30,16 +30,16 @@ function MyTimer({ expiryTimestamp }) {
   function set()
   {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 30);
+    time.setSeconds(time.getSeconds() + 3);
     restart(time)
   }
   return (
     <div style={{display:"inline-block", position:'absolute', left:'80%', bottom:"40%"}}>
-      <h1> Be Ready  </h1>
-      <div style={{fontSize: '100px'}}>
+      <h1 style={{color:'blue', textAlign:"center"}}> Be Ready  </h1>
+      <div style={{fontSize: '80px', textAlign:"center"}}>
         <span>{minutes}</span>:<span>{seconds}</span>
       </div>
-      {seconds === 0 ? <p style={{fontSize:25, color:'blue', fontWeight:'bold'}}> Start answer </p> : null}
+      {seconds === 0 ? <p style={{fontSize:35, color:'blue', fontWeight:'bold'}}> Start Answering </p> : null}
     </div>
   );
 }
@@ -280,30 +280,30 @@ stopRecording() {
 }
 saveAudio() {
   // convert saved chunks to blob
-  const blob = new Blob(this.chunks, {type: audioType});
+
+  const blob = new Blob(this.chunks, {type: 'audio/wav'});
   // this.chunks = [];
-  console.log(blob);
   // generate video url from blob
-  const audioURL = window.URL.createObjectURL(blob);
+  //const audioURL = window.URL.createObjectURL(blob);
   // // append videoURL to list of saved videos for rendering
   // const audios = this.state.audios.concat([audioURL]);
   // this.setState({audios});
 
   // ------------------->this to download and then send AUDIO
-  var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.href = audioURL;
-  a.download = 'recordingName' + '-fwr-recording.wav';
-  a.click();
-  window.URL.revokeObjectURL(audioURL);
-  document.body.removeChild(a);
-
+ // var a = document.createElement("a");
+  //document.body.appendChild(a);
+  //a.style = "display: none";
+ // a.href = audioURL;
+ // a.download = 'record.wav';
+ // a.click();
+ // window.URL.revokeObjectURL(audioURL);
+ // document.body.removeChild(a);
+ 
   let data = new FormData();
-  data.append("file/wav", a);
+  data.append('file', blob, 'record.wav');
   axios({
       method: "post",
-      url: "http://c3952a5b24d5.ngrok.io/predictVoice",
+      url: "http://21f496c0c402.ngrok.io/predictVoice",
       data: data,
       
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
@@ -313,13 +313,13 @@ saveAudio() {
       return res;
     });
 }
-
+/*
 deleteAudio(audioURL) {
   // filter out current videoURL from the list of saved videos
   const audios = this.state.audios.filter(a => a !== audioURL);
   this.setState({audios});
 }
-
+*/
 
 
 
@@ -331,7 +331,7 @@ deleteAudio(audioURL) {
 ////////////////////////////////////////////////
     render() {
       const time = new Date();
-      time.setSeconds(time.getSeconds() + 30);
+      time.setSeconds(time.getSeconds() + 3);
       return (
         <div>
           <Header show = "false"/>    
@@ -364,24 +364,20 @@ deleteAudio(audioURL) {
 
            {this.state.start && <video autoPlay={true} id="videoElement" style={{width:"60%"}}></video>}
 
-           {this.state.showQuestion && <MyTimer expiryTimestamp={time}/>}
+           {this.state.showQuestion && !this.state.showQuestionButton && <MyTimer expiryTimestamp={time}/>}
 
-           {this.state.start && (<audio
-
-
-style={{width: 400}}
-ref={a => {
-  this.audio = a;
-}}>
-<p>Audio stream not available. </p>
-</audio>)}
-
+           {this.state.start && (<audio style={{width: 400}}
+                ref={a => {
+                  this.audio = a;
+                }}>
+                <p>Audio stream not available. </p>
+                </audio>)}
 
           </div>
           {/* <br/> */}
-          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>start</button> }
+          {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
           {/* <Recvoice/> */}
-          {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>question</button>}
+          {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
 
         </div>
       );
