@@ -279,30 +279,30 @@ stopRecording() {
 }
 saveAudio() {
   // convert saved chunks to blob
-  const blob = new Blob(this.chunks, {type: audioType});
+
+  const blob = new Blob(this.chunks, {type: 'audio/wav'});
   // this.chunks = [];
-  console.log(blob);
   // generate video url from blob
-  const audioURL = window.URL.createObjectURL(blob);
+  //const audioURL = window.URL.createObjectURL(blob);
   // // append videoURL to list of saved videos for rendering
   // const audios = this.state.audios.concat([audioURL]);
   // this.setState({audios});
 
   // ------------------->this to download and then send AUDIO
-  var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.href = audioURL;
-  a.download = 'recordingName' + '-fwr-recording.wav';
-  a.click();
-  window.URL.revokeObjectURL(audioURL);
-  document.body.removeChild(a);
-
+ // var a = document.createElement("a");
+  //document.body.appendChild(a);
+  //a.style = "display: none";
+ // a.href = audioURL;
+ // a.download = 'record.wav';
+ // a.click();
+ // window.URL.revokeObjectURL(audioURL);
+ // document.body.removeChild(a);
+ 
   let data = new FormData();
-  data.append("file/wav", a);
+  data.append('file', blob, 'record.wav');
   axios({
       method: "post",
-      url: "http://c3952a5b24d5.ngrok.io/predictVoice",
+      url: "http://21f496c0c402.ngrok.io/predictVoice",
       data: data,
       
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
@@ -312,13 +312,13 @@ saveAudio() {
       return res;
     });
 }
-
+/*
 deleteAudio(audioURL) {
   // filter out current videoURL from the list of saved videos
   const audios = this.state.audios.filter(a => a !== audioURL);
   this.setState({audios});
 }
-
+*/
 
 
 

@@ -226,7 +226,7 @@ class RecordingAPI extends React.Component {
     document.body.appendChild(a);
     a.style = "display: none";
     a.href = audioURL;
-    a.download = 'recordingName' + '-fwr-recording.wav';
+  //  a.download = 'recordingName' + '-fwr-recording.wav';
     a.click();
     window.URL.revokeObjectURL(audioURL);
     document.body.removeChild(a);
@@ -235,13 +235,13 @@ class RecordingAPI extends React.Component {
     data.append("file/wav", a);
     axios({
         method: "post",
-        url: "http://c3952a5b24d5.ngrok.io/predictVoice",
+        url: "http://a63b7a68611e.ngrok.io/predictVoice",
         data: data,
         
         headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
       })
       .then((res) => {
-        console.log(res);
+        console.log("Fuck the world ",res);
         return res;
       });
   }
