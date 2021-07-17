@@ -9,9 +9,21 @@ import { Chart } from "react-google-charts";
 import { Component } from 'react';
 class Feedback extends Component {
     constructor(props){
-
+        super(props);
+        this.state = {
+            Facial_Evaluation: 'in overall, your facial expression is good, but you need to practise more, it seems that your are a little bit nervous, but relax, the self confidence is very important in interview',
+            Voice_Evaluation: "it's clear that your are nervious so you look as you are angry, but here is some advices to enhance your voice",
+            recommendations:[],
+            face_emotion:{},
+            voice_emotion:{}
+        };
     }
-
+    componentDidMount() {
+        //switch(this.state.voice_emotion){
+        //    case "good":
+                
+        //}
+      }
     render(){
         return(
             <div>
@@ -61,7 +73,7 @@ class Feedback extends Component {
                                     
                                       <img  src="face1.png" width="50" height="50" />
                                   </div>
-                                  <p>in overall, your facial expression is good, but you need to practise more, it seems that your are a little bit nervous, but relax, the self confidence is very important in interview</p>
+                                  <p>{this.state.Facial_Evaluation}</p>
         
                                   <ul>
                                         <li>smile, there is nothing better than smiling but don't overdose smiling so it appears fake</li>
@@ -80,7 +92,7 @@ class Feedback extends Component {
                                     
                                       <img  src="voice-command.png" width="50" height="50" />
                                   </div>
-                                  <p>it's clear that your are nervious so you look as you are angry, but here is some advices to enhance your voice</p>
+                                  <p>{this.state.Voice_Evaluation}</p>
                                   <ul>
                                         <li>Lower the pitch of your voice slightly when speaking</li>
                                         <li>you speak a little bit fast, try to speak in regular speed</li>

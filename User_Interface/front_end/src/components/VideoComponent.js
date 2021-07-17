@@ -8,7 +8,6 @@ import { Carousel } from "react-bootstrap";
 import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
-
 import { useTimer } from 'react-timer-hook';
 // import Recvoice from "./VoiceRecording";
 
@@ -81,7 +80,7 @@ function ControlledCarousel() {
 }
 
 
-const audioType = 'audio/*';
+const audioType = 'audio/wav';
 
 class Video extends React.Component {
   state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,mediaStream2:null,startAnswering:false, recording: false,
@@ -281,6 +280,7 @@ stopRecording() {
     // save the video to memory
     this.saveAudio();    
 }
+
 saveAudio() {
   // convert saved chunks to blob
     const blob = new Blob(this.chunks, {type: 'audio/wav'});
@@ -309,8 +309,7 @@ saveAudio() {
       method: "post",
       url: "http://bcc47de5c2a2.ngrok.io/predictVoice",
       data: data,
-      
-      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`},
+      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
     .then((res) => {
       console.log(res);
