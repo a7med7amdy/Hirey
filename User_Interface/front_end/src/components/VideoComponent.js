@@ -13,7 +13,7 @@ import { useTimer } from 'react-timer-hook';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+const serverURL = "";
 const mapStateToProps = state => {
   return {
     data: state.data
@@ -83,8 +83,25 @@ function ControlledCarousel() {
 const audioType = 'audio/wav';
 
 class Video extends React.Component {
-  state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,mediaStream2:null,startAnswering:false, recording: false,
-  audios: [],showQuestionButton:true};
+  state = { 
+    video:null,
+    start:false,
+    good:0,
+    medium:0,
+    bad:0,
+    data:[],
+    showQuestion:false,
+    mx:0,
+    idx:0,
+    mediaStream:null,
+    mediaStream2:null,
+    startAnswering:false, 
+    recording: false,
+    audios: [],
+    showQuestionButton:true,
+    voice_dic:{"good":0,"bad":0,"medium":0},
+    tmp:null
+  };
   constructor(props) {
     super(props);
     this.streamCamVideo = this.streamCamVideo.bind(this);
@@ -167,7 +184,13 @@ class Video extends React.Component {
       
       // TODO
       //redirect to statistic page
-      //this.props.history.push({pathname:"/"});
+      this.props.history.push({
+        pathname:"/feedback",
+        state: { 
+          face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
+          voice_dic:this.state.voice_dic,
+          dummy:"dummy" }
+      });
     }
   }
 
@@ -190,7 +213,7 @@ class Video extends React.Component {
         bodyFormData.append('image', data); 
         axios({
           method: "post",
-          url: "http://b90f643f4f25.ngrok.io/predict",
+          url: serverURL+"/predict",
           data: bodyFormData,
           
           headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
@@ -284,7 +307,7 @@ stopRecording() {
 saveAudio() {
   // convert saved chunks to blob
 
-  const blob = new Blob(this.chunks, {type: 'audio/wav'});
+  const blob = new Blob(this.chunks, {type:  'audio/wav'});
    this.chunks = [];
   // ------------------->this to download and then send AUDIO
   
@@ -292,14 +315,20 @@ saveAudio() {
   data.append("file", blob,'record.wav');
   axios({
       method: "post",
-      url: "http://48e2beaf768f.ngrok.io/predictVoice",
+      url: serverURL+"/predictVoice",
       data: data,
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
     .then((res) => {
-      console.log(res);
-      return res;
+      //console.log("result from predictVoice: ",res.data);
+ 
+
+      this.state.voice_dic["good"]+=res.data["good"];
+      this.state.voice_dic["bad"]+=res.data["bad"];
+      this.state.voice_dic["medium"]+=res.data["medium"];
+      
     });
+    
 }
 /*
 deleteAudio(audioURL) {

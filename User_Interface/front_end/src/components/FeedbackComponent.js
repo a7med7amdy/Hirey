@@ -1,30 +1,47 @@
 import React from 'react';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import { Link } from 'react-router-dom';
 import CCard from 'react-bootstrap/Card';
 import CCardHeader from 'react-bootstrap/Card';
 import CCardBody from 'react-bootstrap/Card'
 import { Chart } from "react-google-charts";
 import { Component } from 'react';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
+const mapStateToProps = state => {
+    return {
+      face_emotion:state.face_dic,
+      voice_emotion:state.voice_dic,
+      tmp:state.dummy
+    }
+  }
+ 
 class Feedback extends Component {
     constructor(props){
         super(props);
+        
         this.state = {
             Facial_Evaluation: 'in overall, your facial expression is good, but you need to practise more, it seems that your are a little bit nervous, but relax, the self confidence is very important in interview',
             Voice_Evaluation: "it's clear that your are nervious so you look as you are angry, but here is some advices to enhance your voice",
             recommendations:[],
             face_emotion:{},
-            voice_emotion:{}
+            voice_emotion:{},
+         
+       
         };
+     
     }
-    componentDidMount() {
-        //switch(this.state.voice_emotion){
-        //    case "good":
-                
-        //}
+    async componentDidMount() {
+        this.setState({voice_emotion:this.props.location.state.voice_dic});
+        this.setState({face_emotion:this.props.location.state.face_dic});
+        //this.setState({face_emotion:this.props.location.state.face_dic});
+        //console.log("fucking: ",this.props.location.state.voice_dic);
+        console.log("face: ",this.state.face_emotion);
+
       }
+    
     render(){
+      
         return(
             <div>
               <Header/>
@@ -55,7 +72,7 @@ class Feedback extends Component {
                                   </div>
                              
                               <footer className="blockquote-footer">
-                                  Q1 <cite title="Source Title">what is the machine learning?</cite>
+                                  Q1 <cite title="Source Title"></cite>
                                   
                               </footer>
                               <footer className="blockquote-footer">
@@ -149,5 +166,4 @@ class Feedback extends Component {
     }
 }
 
-
-export default Feedback;
+export default withRouter(connect(mapStateToProps)(Feedback));
