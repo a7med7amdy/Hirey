@@ -190,7 +190,7 @@ class Video extends React.Component {
         bodyFormData.append('image', data); 
         axios({
           method: "post",
-          url: "http://b90f643f4f25.ngrok.io/predict",
+          url: "http://573416bdbe9c.ngrok.io/predict",
           data: bodyFormData,
           
           headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
@@ -308,7 +308,7 @@ saveAudio() {
     dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
     axios({
       method: "post",
-      url: "http://8fa6cc161936.ngrok.io/predictVoice",
+      url: "http://573416bdbe9c.ngrok.io/predictVoice",
       data: data,
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
@@ -318,7 +318,7 @@ saveAudio() {
     });
     axios({
       method: "POST",
-      url: "http://8fa6cc161936.ngrok.io/predictSimilarity",
+      url: "http://573416bdbe9c.ngrok.io/predictSimilarity",
       data: dataSim ,
       headers: {'Content-Type': `multipart/form-data; boundary=${dataSim._boundary}`}
     })
