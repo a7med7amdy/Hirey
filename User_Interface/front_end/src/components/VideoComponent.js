@@ -305,9 +305,10 @@ saveAudio() {
     data.append('file', blob, 'record.wav');
     let dataSim = new FormData();
     dataSim.append('file', blob, 'record2.wav');
+    dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
     axios({
       method: "post",
-      url: "http://bcc47de5c2a2.ngrok.io/predictVoice",
+      url: "http://8fa6cc161936.ngrok.io/predictVoice",
       data: data,
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
@@ -316,11 +317,10 @@ saveAudio() {
       return res;
     });
     axios({
-      method: "post",
-      url: "http://bcc47de5c2a2.ngrok.io/predictSimilarity",
-      // data: [dataSim, this.state.data[this.state.idx - 1].answer1] ,
-      data: this.state.data[this.state.idx - 1].answer1,
-      headers: {'Content-Type': `multipart/form-data`}
+      method: "POST",
+      url: "http://8fa6cc161936.ngrok.io/predictSimilarity",
+      data: dataSim ,
+      headers: {'Content-Type': `multipart/form-data; boundary=${dataSim._boundary}`}
     })
     .then((res) => {
       console.log(res);
