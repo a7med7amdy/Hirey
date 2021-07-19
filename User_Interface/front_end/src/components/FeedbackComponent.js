@@ -55,17 +55,19 @@ class Feedback extends Component {
         */
             var sum1=0;
             var sz1=0;
+            var frequencies1=0;
             for(var key in this.props.location.state.face_dic){
-                if(this.props.location.state.face_dic[key]!=0){
-                    sz1+=1;
+                frequencies1=this.props.location.state.face_dic[key];
+                if(frequencies1!=0){
+                    sz1+=frequencies1;
                     if(key=="good"){
-                        sum1+=1;
+                        sum1+=frequencies1;
                     }
                     else if(key=="medium"){
-                        sum1+=0.7;
+                        sum1+=0.7*frequencies1;
                     }
                     else{
-                        sum1-=0.5;
+                        sum1-=0.5*frequencies1;
                     }
                 }
                 if (this.props.location.state.face_dic[key]>this.state.MaxFacialValue){
@@ -75,9 +77,9 @@ class Feedback extends Component {
             sum1=sum1/sz1;
             sum1=sum1*100;
             
-            if(sum1<0)sum1=0;
-            this.state.FacePercentage=sum1;
-
+            if(sum1<=0)sum1=10;
+            //this.state.FacePercentage=sum1;
+            this.setState({FacePercentage: sum1});
             switch(this.state.maxFacialEmotion){
                 case "good":
                     {
@@ -124,18 +126,19 @@ class Feedback extends Component {
         */
             var sum=0;
             var sz=0;
+            var frequencies=0;
             for(var key in this.props.location.state.voice_dic){
-                
-                if(this.props.location.state.voice_dic[key]!=0){
-                    sz+=1;
+                frequencies=this.props.location.state.voice_dic[key];
+                if(frequencies!=0){
+                    sz+=frequencies;
                     if(key=="good"){
-                        sum+=1;
+                        sum+=frequencies;
                     }
                     else if(key=="medium"){
-                        sum+=0.7;
+                        sum+=frequencies*0.7;
                     }
                     else{
-                        sum-=0.5;
+                        sum-=frequencies*0.5;
                     }
                 }
 
@@ -147,9 +150,10 @@ class Feedback extends Component {
             }
             sum=sum/sz;
             sum=sum*100;
-            
-            if(sum<0)sum=0;
+            if(sum<=0)sum=6;
             this.setState({voicePercentage:sum});
+           // this.state.voicePercentage = sum;
+
             switch(this.state.maxVoiceEmotion){
                 case "good":
                     {
@@ -208,9 +212,11 @@ class Feedback extends Component {
         */
        var sum=0;
        var sz=0;
+       
         for(var key in this.props.location.state.Question_dic){
             var result_list = this.props.location.state.Question_dic[key];
             var num=parseFloat(result_list[1]);
+            
             sum=sum+num;
             sz+=1;
             if(num<=0.5){

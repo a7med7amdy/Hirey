@@ -13,7 +13,7 @@ import { useTimer } from 'react-timer-hook';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "http://22b3cf5f8fb8.ngrok.io";
+const serverURL = "http://8434f183f50b.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -185,7 +185,8 @@ class Video extends React.Component {
       console.log("hiiii");
       this.state.mediaStream2.getAudioTracks()[0].stop();
       this.state.mediaStream.getVideoTracks()[0].stop();
-      
+    
+     
       // TODO
       //redirect to statistic page
       this.props.history.push({
@@ -346,7 +347,7 @@ stopRecording() {
       var tuna=res.data;
       //question = [answer, prob]
       this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
-
+    
     }).catch(function (response) {
       //handle error
      
