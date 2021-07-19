@@ -153,7 +153,7 @@ class Home extends Component {
         case "Deep Learning":
         {
           data = this.props.DL.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
-          console.log(data);
+          // console.log(data);
           break;
         }
         case "machine Learning":
@@ -164,16 +164,16 @@ class Home extends Component {
         case "Software Development Engineer":
         {
           data = this.props.SW.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
-          console.log(data);
+          // console.log(data);
           break;
         }
         default:
         {
           data = this.props.NLP.filter((question) => question.id >= this.state.start && question.id <= (this.state.start + 4));
-          console.log(data);
+          // console.log(data);
         }
       }
-      this.props.history.push({pathname:"/interview",state: { data: data }});
+      this.props.history.push({pathname:"/interview",state: { data: data, job:this.state.SelectedJob}});
   }
   render() { 
       return (

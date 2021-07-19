@@ -68,7 +68,7 @@ export const DL =
         question: "what do you know about input layer?",
         answer1: "The input layer contains input neurons which send information to the hidden layer.",
         answer2: "The input layer passes the data directly to the first hidden layer where the data is multiplied by the first hidden layer's weights.",
-        answer3: "Input Layer: Input variables, sometimes called the visible layer. "
+        answer3: "Input Layer: Input variables, sometimes called the visible layer. It's the first layer of the network that takes the data "
     },
     {
         id: 10,

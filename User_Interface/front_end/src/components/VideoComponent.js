@@ -13,7 +13,9 @@ import { useTimer } from 'react-timer-hook';
 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "";
+const serverURL = "http://22b3cf5f8fb8.ngrok.io";
+
+
 const mapStateToProps = state => {
   return {
     data: state.data
@@ -100,7 +102,9 @@ class Video extends React.Component {
     audios: [],
     showQuestionButton:true,
     voice_dic:{"good":0,"bad":0,"medium":0},
-    tmp:null
+    tmp:null,
+    Question_dic:{},
+    prob:0
   };
   constructor(props) {
     super(props);
@@ -154,7 +158,7 @@ class Video extends React.Component {
       }, 10000);
   }
 
-  takeQuestion = ()=>{
+   takeQuestion = ()=>{
     this.setState({showQuestionButton:false});
     if(this.state.idx>0){
       this.stopRecording()
@@ -188,8 +192,10 @@ class Video extends React.Component {
         pathname:"/feedback",
         state: { 
           face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
-          voice_dic:this.state.voice_dic,
-          dummy:"dummy" }
+          voice_dic:this.state.voice_dic, 
+          Question_dic:this.state.Question_dic,
+          job:this.props.location.state.job
+           }
       });
     }
   }
@@ -304,45 +310,51 @@ stopRecording() {
     this.saveAudio();    
 }
 
-saveAudio() {
+ saveAudio() {
   // convert saved chunks to blob
+    const blob = new Blob(this.chunks, {type: 'audio/wav'});
+    this.chunks = [];
 
-  const blob = new Blob(this.chunks, {type:  'audio/wav'});
-   this.chunks = [];
-  // ------------------->this to download and then send AUDIO
-  
-  let data = new FormData();
-  data.append("file", blob,'record.wav');
-  axios({
+
+    let data = new FormData();
+    data.append('file', blob, 'record.wav');
+    let dataSim = new FormData();
+    dataSim.append('file', blob, 'record2.wav');
+    dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
+    dataSim.append('question', this.state.data[this.state.idx - 1].question);
+    axios({
       method: "post",
       url: serverURL+"/predictVoice",
       data: data,
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
     .then((res) => {
-      //console.log("result from predictVoice: ",res.data);
- 
 
       this.state.voice_dic["good"]+=res.data["good"];
       this.state.voice_dic["bad"]+=res.data["bad"];
       this.state.voice_dic["medium"]+=res.data["medium"];
-      
+     
     });
+
+     axios({
+      method: "POST",
+      url: serverURL+"/predictSimilarity",
+      data: dataSim ,
+      headers: {'Content-Type': `multipart/form-data; boundary=${dataSim._boundary}`}
+    })
+    .then((res) => {
+      var tuna=res.data;
+      //question = [answer, prob]
+      this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
+
+    }).catch(function (response) {
+      //handle error
+     
+    });
+
     
-}
-/*
-deleteAudio(audioURL) {
-  // filter out current videoURL from the list of saved videos
-  const audios = this.state.audios.filter(a => a !== audioURL);
-  this.setState({audios});
-}
-*/
 
-
-
-
-
-
+  }
 
 
 ////////////////////////////////////////////////
@@ -368,12 +380,12 @@ deleteAudio(audioURL) {
 
             {!this.state.start && <ControlledCarousel/>}
 
-            {this.state.showQuestion && (<div class="card">
-                                              <div class="card-header">
+            {this.state.showQuestion && (<div className="card">
+                                              <div className="card-header">
                                                 Questions
                                               </div>
-                                              <div class="card-body">
-                                                <blockquote class="blockquote mb-0">
+                                              <div className="card-body">
+                                                <blockquote className="blockquote mb-0">
                                                   <p>{this.state.data[this.state.idx - 1].question}</p>
                                                 </blockquote>
                                               </div>
@@ -394,7 +406,7 @@ deleteAudio(audioURL) {
 
         {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
         {/* <Recvoice/> */}
-        {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" class="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
+        {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" className="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
 
       </div>
     );
