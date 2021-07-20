@@ -210,7 +210,7 @@ pa-menu-item.selected {
 }
 .font_cursive{
   font-family: cursive;
-  font-size:25px;
+  font-size:30px;
 }
 #card{
   border-top: 4px solid #fc0;
@@ -224,4 +224,24 @@ pa-menu-item.selected {
 
 .start {
   margin-left: 48%;
+}
+
+.answer
+{
+  word-wrap: break-word;
+}
+#feedback_context{
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+#redirectBtn{
+  margin-left: 20%;
+  margin-top: 20%;
+  
+}
+
+.fontFeedback{
+  font-size: 20px;
+  font-style: italic;
 }

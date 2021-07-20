@@ -9,10 +9,10 @@ import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
-// import Recvoice from "./VoiceRecording";
-
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+const serverURL = "http://e10484dcbb93.ngrok.io";
+
 
 const mapStateToProps = state => {
   return {
@@ -83,8 +83,27 @@ function ControlledCarousel() {
 const audioType = 'audio/wav';
 
 class Video extends React.Component {
-  state = { video:null,start:false,good:0,medium:0,bad:0,data:[],showQuestion:false,mx:0,idx:0,mediaStream:null,mediaStream2:null,startAnswering:false, recording: false,
-  audios: [],showQuestionButton:true};
+  state = { 
+    video:null,
+    start:false,
+    good:0,
+    medium:0,
+    bad:0,
+    data:[],
+    showQuestion:false,
+    mx:0,
+    idx:0,
+    mediaStream:null,
+    mediaStream2:null,
+    startAnswering:false, 
+    recording: false,
+    audios: [],
+    showQuestionButton:true,
+    voice_dic:{"good":0,"bad":0,"medium":0},
+    tmp:null,
+    Question_dic:{},
+    prob:0
+  };
   constructor(props) {
     super(props);
     this.streamCamVideo = this.streamCamVideo.bind(this);
@@ -120,7 +139,6 @@ class Video extends React.Component {
         this.audio.src = URL.createObjectURL(new Blob([mediaStream], {type: audioType}));
       }
     this.audio.play();
-    console.log(mediaStream);
     // init recording
     this.mediaRecorder = new MediaRecorder(mediaStream);
     // init data storage for video chunks
@@ -137,19 +155,17 @@ class Video extends React.Component {
       }, 10000);
   }
 
-  takeQuestion = ()=>{
+   takeQuestion = ()=>{
     this.setState({showQuestionButton:false});
     if(this.state.idx>0){
       this.stopRecording()
       this.state.mediaStream2.getAudioTracks()[0].stop();
     }
     this.setState({startAnswering:false});
-    console.log(this.state.idx);
     this.setState({showQuestion:true},()=>{
       if(this.state.idx <= this.state.mx){
         var msg = new SpeechSynthesisUtterance();
         msg.text = this.state.data[this.state.idx - 1].question;
-        console.log(this.state.data[this.state.idx - 1].question)
         window.speechSynthesis.speak(msg);
       }
     });
@@ -158,22 +174,28 @@ class Video extends React.Component {
       this.countDown();
     if(this.state.idx === this.state.mx){
       this.setState({showQuestion:false},()=>{
-          console.log(this.state.showQuestion);
           this.setState({start:false});
       });
-      console.log("hiiii");
       this.state.mediaStream2.getAudioTracks()[0].stop();
       this.state.mediaStream.getVideoTracks()[0].stop();
-      
+    
+     
       // TODO
       //redirect to statistic page
-      //this.props.history.push({pathname:"/"});
+      this.props.history.push({
+        pathname:"/feedback",
+        state: { 
+          face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
+          voice_dic:this.state.voice_dic, 
+          Question_dic:this.state.Question_dic,
+          job:this.props.location.state.job
+           }
+      });
     }
   }
 
   takephoto=()=>{
     if(this.state.start === true && this.state.startAnswering === true){
-        console.log("i'm evaluating!!!");
         var canvas = document.createElement('canvas');
         canvas.setAttribute('width', 1280);
         canvas.setAttribute('height', 720);
@@ -190,14 +212,13 @@ class Video extends React.Component {
         bodyFormData.append('image', data); 
         axios({
           method: "post",
-          url: "http://98ceb94cb046.ngrok.io/predict",
+          url: serverURL+"/predict",
           data: bodyFormData,
           
           headers: {'Content-Type': `multipart/form-data; boundary=${bodyFormData._boundary}`},
         })
           .then((response)=> {
             //handle success
-            console.log(response.data);
             if(response.data === "good ")
               this.setState({good:this.state.good + 1});
             else if (response.data === "bad ")
@@ -220,7 +241,6 @@ class Video extends React.Component {
     this.setState({start : true})
     var constraints = { audio: false, video: { width: 1280, height: 720 } };
     navigator.mediaDevices.getUserMedia(constraints).then((mediaStream)=> {
-      console.log(mediaStream)
       this.setState({mediaStream:mediaStream})
         var video = document.querySelector("video");
         var canvas = document.createElement('canvas');
@@ -229,9 +249,7 @@ class Video extends React.Component {
         var photo = document.createElement('photo');
         
         video.srcObject = mediaStream;
-        video.onloadedmetadata = (e)=> {
-          console.log(this.state.data);
-          console.log(this.state.mx);            
+        video.onloadedmetadata = (e)=> {          
           video.play(); 
           this.setState({start : true})
           this.setState({video : video})
@@ -281,59 +299,52 @@ stopRecording() {
     this.saveAudio();    
 }
 
-saveAudio() {
+ saveAudio() {
   // convert saved chunks to blob
     const blob = new Blob(this.chunks, {type: 'audio/wav'});
     this.chunks = [];
-  // generate video url from blob
-  // const audioURL = window.URL.createObjectURL(blob);
-  // append videoURL to list of saved videos for rendering
-  //const audios = this.state.audios.concat([audioURL]);
-  //this.setState({audios});
 
- // ------------------->this to download and then send AUDIO
-  // var a = document.createElement("a");
-  //   document.body.appendChild(a);
-  //   a.style = "display: none";
-  // a.href = audioURL;
-  // a.download = 'recordingName' + '-fwr-recording.wav';
-  // a.click();
-  // window.URL.revokeObjectURL(audioURL);
-  // document.body.removeChild(a);
 
     let data = new FormData();
     data.append('file', blob, 'record.wav');
     let dataSim = new FormData();
     dataSim.append('file', blob, 'record.wav');
     dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
+    dataSim.append('question', this.state.data[this.state.idx - 1].question);
     axios({
       method: "post",
-      url: "http://98ceb94cb046.ngrok.io/predictVoice",
+      url: serverURL+"/predictVoice",
       data: data,
       headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
     })
     .then((res) => {
-      console.log(res);
-      return res;
+
+      this.state.voice_dic["good"]+=res.data["good"];
+      this.state.voice_dic["bad"]+=res.data["bad"];
+      this.state.voice_dic["medium"]+=res.data["medium"];
+     
     });
-    axios({
+
+     axios({
       method: "POST",
-      url: "http://98ceb94cb046.ngrok.io/predictSimilarity",
+      url: serverURL+"/predictSimilarity",
       data: dataSim ,
       headers: {'Content-Type': `multipart/form-data; boundary=${dataSim._boundary}`}
     })
     .then((res) => {
-      console.log(res);
-      // return res;
+      var tuna=res.data;
+      //question = [answer, prob]
+      this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
+    
+    }).catch(function (response) {
+      //handle error
+     
     });
+
+    
+
   }
-/*
-deleteAudio(audioURL) {
-  // filter out current videoURL from the list of saved videos
-  const audios = this.state.audios.filter(a => a !== audioURL);
-  this.setState({audios});
-}
-*/
+
 
 ////////////////////////////////////////////////
   render() {
