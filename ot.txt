@@ -1,0 +1,41 @@
+answer 1=  Supervised learning is a system in which both input and desired output data are provided. Input and output data are labeled to provide a learning basis for future data processing.Unsupervised procedure does not need labeling information explicitly, and the operations can be carried out without the same. The common unsupervised learning method is cluster analysis. It is used for exploratory data analysis to find hidden patterns or grouping in data.
+
+answer 2=  supervised learning is a system in which post input and desired output data are provided input and output data or label to provide a learning business for future data processing doesn't need labeling information explicitly and the operation can be carried out without the same the common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in the theater
+supervised learning is system in which both input and desired output data are provided input and output data are labeled to provide learning basis for future data processingunsupervised procedure does not need labeling information explicitly and operations can be carried out without same common unsupervised learning method is cluster analysis it is used for exploratory data analysis to find hidden patterns or grouping in data supervised learning is system in which post input and desired output data are provided input and output data or label to provide learning business for future data processing doesnt need labeling information explicitly and operation can be carried out without same common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in theater
+
+0.9952521324157715
+
+
+answer 1=  A cost function describes us how well the neural network is performing with respect to its given training sample and the expected output. It may depend on variables such as weights and biases.It provides the performance of a neural network as a whole. In deep learning, our priority is to minimize the cost function. That's why we prefer to use the concept of gradient descent.
+
+answer 2=  supervised learning is a system in which post input and desired output data are provided input and output data or label to provide a learning business for future data processing doesn't need labeling information explicitly and the operation can be carried out without the same the common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in the theater
+cost function describes us how well neural network is performing with respect to its given training sample and expected output it may depend on variables such as weights and biasesit provides performance neural network as whole in deep learning our priority is to minimize cost function thats why we prefer to use concept gradient descent supervised learning is system in which post input and desired output data are provided input and output data or label to provide learning business for future data processing doesnt need labeling information explicitly and operation can be carried out without same common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in theater
+
+0.0015790850156918168
+
+
+answer 1=  Both shallow and deep networks are good enough and capable of approximating any function. But for the same level of accuracy, deeper networks can be much more efficient in terms of computation and number of parameters. Deeper networks can create deep representations. At every layer, the network learns a new, more abstract representation of the input.
+
+answer 2=  it cost function describes us how will the new rule network is performing with respect to it's a given training sample ends expected album it may depend on variables such as weights and biases it provides a performance of a neural network as a hole in our priority is to minimize the cost function that's why we prefer to use the concept of Korean descent
+both shallow and deep networks are good enough and capable approximating any function but for same level accuracy deeper networks can be much more efficient in terms computation and number parameters deeper networks can create deep representations at every layer network learns new more abstract representation input it cost function describes us how will new rule network is performing with respect to its given training sample ends expected album it may depend on variables such as weights and biases it provides performance neural network as hole in our priority is to minimize cost function thats why we prefer to use concept korean descent
+
+0.0015705289551988244
+
+answer 1=  Overfitting is the most common issue which occurs in deep learning. It usually occurs when a deep learning algorithm apprehends the sound of specific data. It also appears when the particular algorithm is well suitable for the data and shows up when the algorithm or model represents high variance and low bias.
+
+
+answer 1=  Deep learning model takes longer time to execute the model. In some cases, it even takes several days to execute a single model depends on complexity. The deep learning model is not good for small data sets, and it fails here.
+
+
+answer 2=  shallow and deep networks are good enough and the capital of approximating any function but for the same level of accuracy Bieber net worth be much more efficient in terms of computation and number of problems deeper Network can I create Deidre presentations at each layer then it learns a new more abstract representation of cell
+overfitting is most common issue which occurs in deep learning it usually occurs when deep learning algorithm apprehends sound specific data it also appears when particular algorithm is well suitable for data and shows up when algorithm or model represents high variance and low bias shallow and deep networks are good enough and capital approximating any function but for same level accuracy bieber net worth be much more efficient in terms computation and number problems deeper network can i create deidre presentations at each layer then it learns new more abstract representation cell
+
+0.0018304591067135334
+
+
+answer 2=  overfitting is the most common issue which occurs in deep learning usually occurs when a deep learning algorithm apprehends the sound of a specific data it also appears Windsor Windsor particular algorithm is well suitable for the data and shows up when Dark Arisen or model represents High variance and low bias
+deep learning model takes longer time to execute model in some cases it even takes several days to execute single model depends on complexity deep learning model is not good for small data sets and it fails here overfitting is most common issue which occurs in deep learning usually occurs when deep learning algorithm apprehends sound specific data it also appears windsor windsor particular algorithm is well suitable for data and shows up when dark arisen or model represents high variance and low bias
+
+0.013005889020860195
+
+

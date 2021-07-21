@@ -34,8 +34,7 @@ class Feedback extends Component {
             voicePercentage:0,
             FacePercentage:0,
             AnswersPercentage:0,
-            Questions:{}
-       
+  
         };
       
     }
@@ -45,13 +44,12 @@ class Feedback extends Component {
           
           });
     }
-    componentDidMount() {
+    async componentDidMount() {
      /* Just For Debug */ 
         console.log("Face: ",this.props.location.state.face_dic);
         console.log("Voice: ",this.props.location.state.voice_dic);
         console.log("Question: ", this.props.location.state.Question_dic);
-        //this.state.Questions = this.props.location.state.Question_dic;
-        this.setState({Questions: this.props.location.state.Question_dic});
+     
      
         /*
             Facial Expression Evaluation. 
@@ -219,7 +217,7 @@ class Feedback extends Component {
          for(var key in this.props.location.state.Question_dic){
             var result_list = this.props.location.state.Question_dic[key];
             var num=parseFloat(result_list[1]);
-            
+            console.log(num);
             sum=sum+num;
             sz+=1;
             if(num<=0.5){
@@ -354,15 +352,7 @@ class Feedback extends Component {
                                       
                                   </div>
                                   <hr></hr>
-                             {/*    {  <ul>
-                                        {
-                                        this.state.wrong_answers.map((item) =>
-                                            <li className="fontFeedback" key={item.id}>
-                                                {item.question}   
-                                            </li>
-                                        )
-                                        } 
-                                    </ul> } */}
+                         
                                   {
                                     this.state.wrong_answers.map((item, idx) =>
                                     <footer key={idx}>
