@@ -12,7 +12,7 @@ import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const serverURL = "http://eb2a326112ef.ngrok.io";
+const serverURL = "http://e48130db9698.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -281,15 +281,15 @@ class Video extends React.Component {
     }
 
 //////////////////////////////////////////
-  startRecording() {
-    //e.preventDefault();
-    // wipe old data chunks
-    this.chunks = [];
-    // start recorder with 10ms buffer
-    this.mediaRecorder.start(10);
-    // say that we're recording
-    this.setState({recording: true});
-  }
+  // startRecording() {
+  //   //e.preventDefault();
+  //   // wipe old data chunks
+  //   this.chunks = [];
+  //   // start recorder with 10ms buffer
+  //   this.mediaRecorder.start(10);
+  //   // say that we're recording
+  //   this.setState({recording: true});
+  // }
 
 startRecording() {
   //e.preventDefault();
