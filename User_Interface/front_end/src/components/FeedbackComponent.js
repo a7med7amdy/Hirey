@@ -354,14 +354,15 @@ class Feedback extends Component {
                                   <hr></hr>
                          
                                   {
-                                    this.state.wrong_answers.map((item) =>
-                                    <footer >
+                                    this.state.wrong_answers.map((item, idx) =>
+                                    <footer key={idx}>
                                         <strong>{item.question}</strong>
                                               <br></br>
                                           <em className="answer"> {item.answer}</em>
                                         <br></br>
                                         <br></br>
                                     </footer>
+                                    
                              
                                     )
                                   } 
