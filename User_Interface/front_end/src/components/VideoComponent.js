@@ -11,7 +11,7 @@ import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "http://e10484dcbb93.ngrok.io";
+const serverURL = "http://2f6244e1ac4f.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -164,6 +164,7 @@ class Video extends React.Component {
     this.setState({startAnswering:false});
     this.setState({showQuestion:true},()=>{
       if(this.state.idx <= this.state.mx){
+        console.log("HIIHIII")
         var msg = new SpeechSynthesisUtterance();
         msg.text = this.state.data[this.state.idx - 1].question;
         window.speechSynthesis.speak(msg);
@@ -333,6 +334,7 @@ stopRecording() {
     })
     .then((res) => {
       var tuna=res.data;
+      console.log(tuna);
       //question = [answer, prob]
       this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
     
@@ -356,14 +358,16 @@ stopRecording() {
         <div id="container">
           {!this.state.start && (
           <div className="alert alert-primary m-2" role="alert">
-            <p>You have to attempt all the questions given to you to get the feedback</p>
-            <p>There will be a question button, if you clicked on, it will show you the next question</p>
-            <p>After showing the question, you will get 30 secs to prepare your self to answer it</p>
-            <p>After 30 secs, an alert will be shown to you with a message GOOOO!!!, close it and start answering</p>
-            <p>You will be evaluated since then</p>
-            <p>After finishing your answer, press the next question immediately as if you won't and stoppped answering, you will be evaluated badly for that</p>
-            <p>Please, make sure that your face completely appears in the window to give the best results</p>
-            <p>If you are ready, click start button below and GOOD LUCK</p>
+            <ul>
+              <li>You have to attempt all the questions given to you to get the feedback</li>
+              <li>There will be a question button, if you clicked on, it will show you the next question</li>
+              <li>After showing the question, you will get 30 secs to prepare your self to answer it</li>
+              <li>After the timer finishes counting 30 secs, start answering</li>
+              <li>You will be evaluated at the start of answering each question</li>
+              <li>After finishing your answer, press the question button immediately as if you don't, you will be evaluated badly for that</li>
+              <li>Please, make sure that your face completely appears in the window to give the best results</li>
+              <li>If you are ready, click start button below and GOOD LUCK</li>
+            </ul>
           </div>
             )}
 
