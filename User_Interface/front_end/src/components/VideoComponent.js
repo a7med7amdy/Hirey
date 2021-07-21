@@ -1,4 +1,4 @@
-import React ,{ useEffect, useState }from 'react';
+import React ,{ useState }from 'react';
 import 'video.js/dist/video-js.css';
 import 'webrtc-adapter';
 import axios from 'axios';
@@ -9,11 +9,10 @@ import image3 from "../Hirey.png";
 import image2 from "../1.jpg";
 import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
-// import Recvoice from "./VoiceRecording";
-
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "http://8434f183f50b.ngrok.io";
+
+const serverURL = "http://5eb4dedf3add.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -26,21 +25,18 @@ function MyTimer({ expiryTimestamp }) {
   const {
     seconds,
     minutes,
-    restart
   } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
-  function set()
-  {
-    const time = new Date();
-    time.setSeconds(time.getSeconds() + 10);
-    restart(time)
-  }
   return (
-    <div style={{display:"inline-block", position:'absolute', left:'80%', bottom:"40%"}}>
-      <h1 style={{color:'blue', textAlign:"center"}}> Be Ready  </h1>
-      <div style={{fontSize: '80px', textAlign:"center"}}>
-        <span>{minutes}</span>:<span>{seconds}</span>
+    <div style={{display:"inline-block", position:'absolute', left:'80%', bottom:"35%"}}>
+      <div>
+        <h1 style={{color:'blue', textAlign:"center"}}> Be Ready  </h1>
+        <div style={{fontSize: '80px', textAlign:"center"}}>
+          <span>{minutes}</span>:<span>{seconds}</span>
+        </div>
       </div>
-      {seconds === 0 ? <p style={{fontSize:35, color:'blue', fontWeight:'bold'}}> Start Answering </p> : null}
+      {seconds === 0 ? <div style={{fontSize:25, color:'red', fontWeight:'bold'}}> <p > Your response</p>
+                <p style={{textAlign:'center'}}> is recording </p> 
+                </div> : null}
     </div>
   );
 }
@@ -101,6 +97,7 @@ class Video extends React.Component {
     recording: false,
     audios: [],
     showQuestionButton:true,
+    restartTimer: true,
     voice_dic:{"good":0,"bad":0,"medium":0},
     tmp:null,
     Question_dic:{},
@@ -112,7 +109,7 @@ class Video extends React.Component {
   }
 
   async componentDidMount() {
-    this.interval = setInterval(() => this.takephoto(), 10000);
+    this.interval = setInterval(() => this.takephoto(), 20000);
     this.setState({data:this.props.location.state.data});
     this.setState({mx:this.props.location.state.data.length});
   }
@@ -131,7 +128,7 @@ class Video extends React.Component {
       try {
         this.srcObject = mediaStream;
       } catch (err) {
-        if (err.name != "TypeError") {
+        if (err.name !== "TypeError") {
           throw err;
         }
         // Even if they do, they may only support MediaStream
@@ -158,7 +155,11 @@ class Video extends React.Component {
       }, 10000);
   }
 
-   takeQuestion = ()=>{
+  takeQuestion = ()=>{
+    this.setState({restartTimer: false});
+    setTimeout(function() { 
+      this.setState({restartTimer: true}) //After 0.5 second, set render to true
+    }.bind(this), 500);
     this.setState({showQuestionButton:false});
     if(this.state.idx>0){
       this.stopRecording()
@@ -186,18 +187,22 @@ class Video extends React.Component {
       this.state.mediaStream2.getAudioTracks()[0].stop();
       this.state.mediaStream.getVideoTracks()[0].stop();
     
-     
       // TODO
       //redirect to statistic page
-      this.props.history.push({
-        pathname:"/feedback",
-        state: { 
-          face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
-          voice_dic:this.state.voice_dic, 
-          Question_dic:this.state.Question_dic,
-          job:this.props.location.state.job
-           }
-      });
+      document.getElementById('container').style.display = 'none';
+      document.getElementById('wait').style.display = 'block';
+      setTimeout(() => {
+        this.props.history.push({
+          pathname:"/feedback",
+          state: { 
+            face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
+            voice_dic:this.state.voice_dic, 
+            Question_dic:this.state.Question_dic,
+            job:this.props.location.state.job
+             }
+        });
+        }, 5000);
+      
     }
   }
 
@@ -290,15 +295,7 @@ class Video extends React.Component {
     this.setState({recording: true});
   }
 
-startRecording() {
-  //e.preventDefault();
-  // wipe old data chunks
-  this.chunks = [];
-  // start recorder with 10ms buffer
-  this.mediaRecorder.start(10);
-  // say that we're recording
-  this.setState({recording: true});
-}
+
 
 stopRecording() {
   //e.preventDefault();
@@ -309,6 +306,7 @@ stopRecording() {
     this.setState({recording: false});
     // save the video to memory
     this.saveAudio();    
+    //setTimeout(this.saveAudio, 10000);
 }
 
  saveAudio() {
@@ -322,6 +320,8 @@ stopRecording() {
     let dataSim = new FormData();
     dataSim.append('file', blob, 'record2.wav');
     dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
+    dataSim.append('ans2', this.state.data[this.state.idx - 1].answer2);
+    dataSim.append('ans3', this.state.data[this.state.idx - 1].answer3);
     dataSim.append('question', this.state.data[this.state.idx - 1].question);
     axios({
       method: "post",
@@ -336,25 +336,23 @@ stopRecording() {
       this.state.voice_dic["medium"]+=res.data["medium"];
      
     });
-
      axios({
       method: "POST",
       url: serverURL+"/predictSimilarity",
-      data: dataSim ,
+      data: dataSim,
       headers: {'Content-Type': `multipart/form-data; boundary=${dataSim._boundary}`}
     })
     .then((res) => {
       var tuna=res.data;
       //question = [answer, prob]
       this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
+     
+      console.log(res)
     
     }).catch(function (response) {
       //handle error
-     
+      console.log(response);
     });
-
-    
-
   }
 
 
@@ -365,17 +363,21 @@ stopRecording() {
     return (
       <div>
         <Header show = "false"/>    
-        <div id="container">
+        <div id="container" >
           {!this.state.start && (
           <div className="alert alert-primary m-2" role="alert">
-            <p>You have to attempt all the questions given to you to get the feedback</p>
-            <p>There will be a question button, if you clicked on, it will show you the next question</p>
-            <p>After showing the question, you will get 30 secs to prepare your self to answer it</p>
-            <p>After 30 secs, an alert will be shown to you with a message GOOOO!!!, close it and start answering</p>
-            <p>You will be evaluated since then</p>
-            <p>After finishing your answer, press the next question immediately as if you won't and stoppped answering, you will be evaluated badly for that</p>
-            <p>Please, make sure that your face completely appears in the window to give the best results</p>
-            <p>If you are ready, click start button below and GOOD LUCK</p>
+            <p> Hello, please follow these instructions when taking your interview: </p>
+            <ol>
+              <li>Be sure that your environment is quiet, free of distractions, and well it.</li>
+              <li>Keep your head and shoulders centered in the camera frame. </li>
+              <li>Do not place a light source directly behind you. keep your face free of shadows</li>
+              <li>your voice must be clear and the letters are correct.</li>
+            </ol>
+            <p>You have to attempt all the questions given to you to get the feedback.</p>
+            <p>There will be a question button, if you clicked on, it will show you the next question.</p>
+            <p>After showing the question, you will get 10 secs to prepare your self to answer it.</p>
+            <p>After finishing your answer, press the next question immediately as if you won't and stoppped answering, you will be evaluated badly for that.</p>
+            <p>If you are ready, click start button below and GOOD LUCK.</p>
           </div>
             )}
 
@@ -385,16 +387,16 @@ stopRecording() {
                                               <div className="card-header">
                                                 Questions
                                               </div>
-                                              <div className="card-body">
-                                                <blockquote className="blockquote mb-0">
+                                              <div className="card-body" >
+                                                <blockquote className="blockquote">
                                                   <p>{this.state.data[this.state.idx - 1].question}</p>
                                                 </blockquote>
                                               </div>
                                             </div>)}
 
-          {this.state.start && <video autoPlay={true} id="videoElement" style={{width:"60%"}}></video>}
+          {this.state.start && <video autoPlay={true} id="videoElement"  style={{width:"60%"}}></video>}
 
-          {this.state.showQuestion && !this.state.showQuestionButton && <MyTimer expiryTimestamp={time}/>}
+          {this.state.showQuestion && this.state.restartTimer && <MyTimer expiryTimestamp={time}/>}
 
           {this.state.start && (<audio style={{width: 400}}
               ref={a => {
@@ -402,14 +404,17 @@ stopRecording() {
               }}>
               <p>Audio stream not available. </p>
               </audio>)}
-
+              {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
         </div>
 
-        {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
+      
         {/* <Recvoice/> */}
-        {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" className="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 35, fontWeight:'bold', bottom:"25%"}}>Question</button>}
-
+        {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" className="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 30, fontWeight:'bold', bottom:"20%"}}>Next Question</button>}
+        <div style={{display:'none'}} id="wait" className="alert alert-primary m-2" role="alert">
+            <p> Please wait until your report is ready, be patient!</p>        
+          </div>
       </div>
+      
     );
   }
 }

@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 const mapStateToProps = state => {
     return {
-     
+   
     }
   }
  
@@ -33,7 +33,8 @@ class Feedback extends Component {
             maxVoiceEmotion:"",
             voicePercentage:0,
             FacePercentage:0,
-            AnswersPercentage:0
+            AnswersPercentage:0,
+            Questions:{}
        
         };
       
@@ -44,12 +45,14 @@ class Feedback extends Component {
           
           });
     }
-    async componentDidMount() {
+    componentDidMount() {
      /* Just For Debug */ 
         console.log("Face: ",this.props.location.state.face_dic);
         console.log("Voice: ",this.props.location.state.voice_dic);
         console.log("Question: ", this.props.location.state.Question_dic);
-
+        //this.state.Questions = this.props.location.state.Question_dic;
+        this.setState({Questions: this.props.location.state.Question_dic});
+     
         /*
             Facial Expression Evaluation. 
         */
@@ -58,12 +61,12 @@ class Feedback extends Component {
             var frequencies1=0;
             for(var key in this.props.location.state.face_dic){
                 frequencies1=this.props.location.state.face_dic[key];
-                if(frequencies1!=0){
+                if(frequencies1!==0){
                     sz1+=frequencies1;
-                    if(key=="good"){
+                    if(key==="good"){
                         sum1+=frequencies1;
                     }
-                    else if(key=="medium"){
+                    else if(key==="medium"){
                         sum1+=0.7*frequencies1;
                     }
                     else{
@@ -213,13 +216,13 @@ class Feedback extends Component {
        var sum=0;
        var sz=0;
        
-        for(var key in this.props.location.state.Question_dic){
+         for(var key in this.props.location.state.Question_dic){
             var result_list = this.props.location.state.Question_dic[key];
             var num=parseFloat(result_list[1]);
             
             sum=sum+num;
             sz+=1;
-            if(num<=0.5){
+            if(num<=1){
                 this.state.wrong_answers.push(
                     {
                         question:key,
@@ -229,7 +232,7 @@ class Feedback extends Component {
                 
             }
         
-          }
+          } 
         
           sum=sum/sz;
           sum=sum*100;
@@ -317,20 +320,20 @@ class Feedback extends Component {
       }
     
     render(){
-      
+       
         return(
             <div>
               <Header/>
-              <div class="row">
-                 <div class="col-6" id="feedback" >
+              <div className="row">
+                 <div className="col-6" id="feedback" >
                         
                         <CCard id="card">
                             <CCardHeader >
                                 <div >
-                                    <div class="inline-block" >      
+                                    <div className="inline-block" >      
                                           <p id="feedback_font">Your Interview's report is ready</p>   
                                   </div>
-                                  <div class="inline-block">
+                                  <div className="inline-block">
                                       <img  src="rocket.png" width="40" height="40" />
                                   </div>
                               </div>      
@@ -338,25 +341,34 @@ class Feedback extends Component {
                               
                           <CCardBody>
                               <blockquote id="feedback_context" className="blockquote mb-0">
-                              <div class="inline-block" >      
-                                      <p class="font_cursive">
+                              <div className="inline-block" >      
+                                      <p className="font_cursive">
                                             Technical Q/A
                                             
                                       </p> 
                                       
                               </div>
                               
-                                  <div class="inline-block">
+                                  <div className="inline-block">
                                       <img  src="analysis.png" width="50" height="50" />
                                       
                                   </div>
                                   <hr></hr>
+                             {/*    {  <ul>
+                                        {
+                                        this.state.wrong_answers.map((item) =>
+                                            <li className="fontFeedback" key={item.id}>
+                                                {item.question}   
+                                            </li>
+                                        )
+                                        } 
+                                    </ul> } */}
                                   {
                                     this.state.wrong_answers.map((item) =>
                                     <footer >
                                         <strong>{item.question}</strong>
                                               <br></br>
-                                          <em class="answer"> {item.answer}</em>
+                                          <em className="answer"> {item.answer}</em>
                                         <br></br>
                                         <br></br>
                                     </footer>
@@ -367,20 +379,20 @@ class Feedback extends Component {
                               </blockquote>
                               <hr></hr>
                               <div id="feedback_context">
-                                  <div class="inline-block" >      
-                                      <p class="font_cursive">Facial Expressions</p> 
+                                  <div className="inline-block" >      
+                                      <p className="font_cursive">Facial Expressions</p> 
                                   </div>
-                                  <div class="inline-block">
+                                  <div className="inline-block">
                                     
                                       <img  src="face1.png" width="50" height="50" />
                                   </div>
                                   <hr></hr>
-                                  <p class="fontFeedback">{this.state.Facial_Evaluation}</p>
+                                  <p className="fontFeedback">{this.state.Facial_Evaluation}</p>
                                   
                                   <ul>
                                         {
                                         this.state.Facial_advices.map((item) =>
-                                            <li class="fontFeedback" key={item.id}>
+                                            <li className="fontFeedback" key={item.id}>
                                                 {item.advice}   
                                             </li>
                                         )
@@ -390,20 +402,20 @@ class Feedback extends Component {
                                       
                               <hr></hr>
                                 <div id="feedback_context">
-                                  <div class="inline-block" >      
-                                      <p class="font_cursive">Voice modulation</p> 
+                                  <div className="inline-block" >      
+                                      <p className="font_cursive">Voice modulation</p> 
                                       
                                   </div>
-                                  <div class="inline-block">
+                                  <div className="inline-block">
                                     
                                       <img  src="voice-command.png" width="50" height="50" />
                                   </div>
                                   <hr></hr>
-                                  <p class="fontFeedback">{this.state.Voice_Evaluation}</p>
+                                  <p className="fontFeedback">{this.state.Voice_Evaluation}</p>
                                   <ul>
                                         {
                                         this.state.Voice_advices.map((item) =>
-                                            <li class="fontFeedback" key={item.id}>
+                                            <li className="fontFeedback" key={item.id}>
                                                 {item.advice}   
                                             </li>
                                         )
@@ -412,12 +424,12 @@ class Feedback extends Component {
                               </div>  
                               <hr></hr>
                               <div id="feedback_context">
-                                    <div class="inline-block" > 
+                                    <div className="inline-block" > 
         
-                                        <p class="font_cursive">recommendations</p> 
+                                        <p className="font_cursive">Recommendations</p> 
                                     </div>
         
-                                    <div class="inline-block">
+                                    <div className="inline-block">
                                         
                                         <img  src="quality.png" width="40" height="40" />
                                     </div>
