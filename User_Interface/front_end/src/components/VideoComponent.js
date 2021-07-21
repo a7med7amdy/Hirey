@@ -12,7 +12,7 @@ import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const serverURL = "http://eb2a326112ef.ngrok.io";
+const serverURL = "http://bd8b5cdc60cc.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -187,18 +187,22 @@ class Video extends React.Component {
       this.state.mediaStream2.getAudioTracks()[0].stop();
       this.state.mediaStream.getVideoTracks()[0].stop();
     
-     
       // TODO
       //redirect to statistic page
-      this.props.history.push({
-        pathname:"/feedback",
-        state: { 
-          face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
-          voice_dic:this.state.voice_dic, 
-          Question_dic:this.state.Question_dic,
-          job:this.props.location.state.job
-           }
-      });
+      document.getElementById('container').style.display = 'none';
+      document.getElementById('wait').style.display = 'block';
+      setTimeout(() => {
+        this.props.history.push({
+          pathname:"/feedback",
+          state: { 
+            face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
+            voice_dic:this.state.voice_dic, 
+            Question_dic:this.state.Question_dic,
+            job:this.props.location.state.job
+             }
+        });
+        }, 5000);
+      
     }
   }
 
@@ -291,15 +295,7 @@ class Video extends React.Component {
     this.setState({recording: true});
   }
 
-startRecording() {
-  //e.preventDefault();
-  // wipe old data chunks
-  this.chunks = [];
-  // start recorder with 10ms buffer
-  this.mediaRecorder.start(10);
-  // say that we're recording
-  this.setState({recording: true});
-}
+
 
 stopRecording() {
   //e.preventDefault();
@@ -310,6 +306,7 @@ stopRecording() {
     this.setState({recording: false});
     // save the video to memory
     this.saveAudio();    
+    //setTimeout(this.saveAudio, 10000);
 }
 
  saveAudio() {
@@ -339,7 +336,6 @@ stopRecording() {
       this.state.voice_dic["medium"]+=res.data["medium"];
      
     });
-
      axios({
       method: "POST",
       url: serverURL+"/predictSimilarity",
@@ -350,6 +346,7 @@ stopRecording() {
       var tuna=res.data;
       //question = [answer, prob]
       this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
+     
       console.log(res)
     
     }).catch(function (response) {
@@ -366,7 +363,7 @@ stopRecording() {
     return (
       <div>
         <Header show = "false"/>    
-        <div id="container">
+        <div id="container" >
           {!this.state.start && (
           <div className="alert alert-primary m-2" role="alert">
             <p> Hello, please follow these instructions when taking your interview: </p>
@@ -407,14 +404,17 @@ stopRecording() {
               }}>
               <p>Audio stream not available. </p>
               </audio>)}
-
+              {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
         </div>
 
-        {!this.state.start && <button onClick={this.streamCamVideo} type="button" className="btn btn-primary start m-5" style={{position:'relative', left:'38%', width:"20%", fontSize: 35, fontWeight:'bold'}}>Start</button> }
+      
         {/* <Recvoice/> */}
         {this.state.start && this.state.showQuestionButton  && <button onClick={this.takeQuestion} type="button" className="btn btn-primary start" style={{position:'absolute', left:'30%', width:"15%", fontSize: 30, fontWeight:'bold', bottom:"20%"}}>Next Question</button>}
-
+        <div style={{display:'none'}} id="wait" className="alert alert-primary m-2" role="alert">
+            <p> Please wait until your report is ready, be patient!</p>        
+          </div>
       </div>
+      
     );
   }
 }

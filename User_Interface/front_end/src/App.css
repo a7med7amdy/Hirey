@@ -245,3 +245,6 @@ pa-menu-item.selected {
   font-size: 20px;
   font-style: italic;
 }
+.interview{
+  display: none;
+}
