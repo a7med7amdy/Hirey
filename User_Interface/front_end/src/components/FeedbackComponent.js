@@ -222,7 +222,7 @@ class Feedback extends Component {
             
             sum=sum+num;
             sz+=1;
-            if(num<=1){
+            if(num<=0.5){
                 this.state.wrong_answers.push(
                     {
                         question:key,
@@ -364,14 +364,15 @@ class Feedback extends Component {
                                         } 
                                     </ul> } */}
                                   {
-                                    this.state.wrong_answers.map((item) =>
-                                    <footer >
+                                    this.state.wrong_answers.map((item, idx) =>
+                                    <footer key={idx}>
                                         <strong>{item.question}</strong>
                                               <br></br>
                                           <em className="answer"> {item.answer}</em>
                                         <br></br>
                                         <br></br>
                                     </footer>
+                                    
                              
                                     )
                                   } 
