@@ -12,7 +12,7 @@ import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const serverURL = "http://fdcf867aeb55.ngrok.io";
+const serverURL = "http://f56ca38dd7d9.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -191,7 +191,6 @@ class Video extends React.Component {
       //redirect to statistic page
       document.getElementById('container').style.display = 'none';
       document.getElementById('wait').style.display = 'block';
-      console.log("dddd",Object.keys(this.state.Question_dic).length);
       setTimeout(() => {
         this.props.history.push({
           pathname:"/feedback",
@@ -233,7 +232,7 @@ class Video extends React.Component {
         })
           .then((response)=> {
             //handle success
-            console.log(response.data);
+            console.log("happy sucess: ",response.data);
             if(response.data === "good ")
               this.setState({good:this.state.good + 1});
             else if (response.data === "bad ")
@@ -242,13 +241,13 @@ class Video extends React.Component {
               this.setState({medium:this.state.medium + 1});
 
 
-            console.log("good",this.state.good);
-            console.log("bad",this.state.bad);
-            console.log("medium",this.state.medium);
+            console.log("good ",this.state.good);
+            console.log("bad ",this.state.bad);
+            console.log("medium ",this.state.medium);
           })
           .catch(function (response) {
             //handle error
-            console.log(response);
+            console.log("Fuck error: ",response);
           });
     }
   }

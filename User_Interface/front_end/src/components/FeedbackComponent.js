@@ -72,7 +72,8 @@ class Feedback extends Component {
                     }
                 }
                 if (this.props.location.state.face_dic[key]>this.state.MaxFacialValue){
-                    this.setState({maxFacialEmotion:key});
+                    this.state.maxFacialEmotion=key;
+                    this.state.MaxFacialValue=this.props.location.state.face_dic[key];
                 }
             }
             sum1=sum1/sz1;
