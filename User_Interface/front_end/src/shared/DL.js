@@ -100,17 +100,17 @@ export const DL =
     },
     {
         id: 14,
-        question: "Explain the following variant of Gradient Descent mini-batch?",
-        answer1: "Mini-batch gradient descent is a variation of stochastic gradient descent. Instead of a single training example, mini-batch of samples is used. Mini-batch gradient descent is one of the most popular optimization algorithms.",
-        answer2: "Instead of going over all examples, Mini-batch Gradient Descent sums up over lower number of examples based on the batch size.",
-        answer3: "This is a type of gradient descent which works faster than both batch gradient descent and stochastic gradient descent. Here b examples where b<m are processed per iteration."
-    },
-    {
-        id: 15,
         question: "What do you understand by a convolutional neural network?",
         answer1: "A convolutional neural network is a feedforward neural network. It uses convolution in at least one of its layers. The convolutional layer contains a set of filter (kernels). This filter is sliding across the entire input image, computing the dot product between the weights of the filter and the input image. As a result of training, the network automatically learns filters that can detect specific features.",
         answer2: "A convolutional neural network (CNN) is a type of artificial neural network used in image recognition and processing that is specifically designed to process pixel data.",
         answer3: "A convolutional neural network, or CNN, is a deep learning neural network designed for processing structured arrays of data such as images."
+    },
+    {
+        id: 15,
+        question: "Explain the following variant of Gradient Descent mini-batch?",
+        answer1: "Mini-batch gradient descent is a variation of stochastic gradient descent. Instead of a single training example, mini-batch of samples is used. Mini-batch gradient descent is one of the most popular optimization algorithms.",
+        answer2: "Instead of going over all examples, Mini-batch Gradient Descent sums up over lower number of examples based on the batch size.",
+        answer3: "This is a type of gradient descent which works faster than both batch gradient descent and stochastic gradient descent. Here b examples where b<m are processed per iteration."
     },
     {
         id: 16,
