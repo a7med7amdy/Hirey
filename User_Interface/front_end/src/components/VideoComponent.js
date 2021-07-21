@@ -12,7 +12,7 @@ import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const serverURL = "http://25546904b193.ngrok.io";
+const serverURL = "http://fdcf867aeb55.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -109,7 +109,7 @@ class Video extends React.Component {
   }
 
   async componentDidMount() {
-    this.interval = setInterval(() => this.takephoto(), 10000);
+    this.interval = setInterval(() => this.takephoto(), 20000);
     this.setState({data:this.props.location.state.data});
     this.setState({mx:this.props.location.state.data.length});
   }
@@ -286,14 +286,14 @@ class Video extends React.Component {
     }
 
 //////////////////////////////////////////
-   startRecording() {
-     //e.preventDefault();
-     // wipe old data chunks
-     this.chunks = [];
-  //   // start recorder with 10ms buffer
-     this.mediaRecorder.start(10);
-  //   // say that we're recording
-     this.setState({recording: true});
+  startRecording() {
+    //e.preventDefault();
+    // wipe old data chunks
+    this.chunks = [];
+    // start recorder with 10ms buffer
+    this.mediaRecorder.start(10);
+    // say that we're recording
+    this.setState({recording: true});
   }
 
 
