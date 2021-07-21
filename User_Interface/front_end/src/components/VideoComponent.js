@@ -11,7 +11,7 @@ import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "http://ceee08af3e5c.ngrok.io";
+const serverURL = "http://8501b48defdb.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -338,8 +338,7 @@ stopRecording() {
       var tuna=res.data;
       console.log(tuna);
       //question = [answer, prob]
-      this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
-     
+      this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];    
       console.log(res)
     
     }).catch(function (response) {
