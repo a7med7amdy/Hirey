@@ -11,7 +11,7 @@ import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "http://ceee08af3e5c.ngrok.io";
+const serverURL = "http://3f2234c3193b.ngrok.io";
 
 
 const mapStateToProps = state => {
