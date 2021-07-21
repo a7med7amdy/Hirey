@@ -11,8 +11,7 @@ import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-const serverURL = "http://5eb4dedf3add.ngrok.io";
+const serverURL = "http://b76dc639b12a.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -109,7 +108,7 @@ class Video extends React.Component {
   }
 
   async componentDidMount() {
-    this.interval = setInterval(() => this.takephoto(), 20000);
+    this.interval = setInterval(() => this.takephoto(), 10000);
     this.setState({data:this.props.location.state.data});
     this.setState({mx:this.props.location.state.data.length});
   }
@@ -138,7 +137,6 @@ class Video extends React.Component {
         this.audio.src = URL.createObjectURL(new Blob([mediaStream], {type: audioType}));
       }
     this.audio.play();
-    console.log(mediaStream);
     // init recording
     this.mediaRecorder = new MediaRecorder(mediaStream);
     // init data storage for video chunks
@@ -166,12 +164,11 @@ class Video extends React.Component {
       this.state.mediaStream2.getAudioTracks()[0].stop();
     }
     this.setState({startAnswering:false});
-    console.log(this.state.idx);
     this.setState({showQuestion:true},()=>{
       if(this.state.idx <= this.state.mx){
+        console.log("HIIHIII")
         var msg = new SpeechSynthesisUtterance();
         msg.text = this.state.data[this.state.idx - 1].question;
-        console.log(this.state.data[this.state.idx - 1].question)
         window.speechSynthesis.speak(msg);
       }
     });
@@ -180,10 +177,8 @@ class Video extends React.Component {
       this.countDown();
     if(this.state.idx === this.state.mx){
       this.setState({showQuestion:false},()=>{
-          console.log(this.state.showQuestion);
           this.setState({start:false});
       });
-      console.log("hiiii");
       this.state.mediaStream2.getAudioTracks()[0].stop();
       this.state.mediaStream.getVideoTracks()[0].stop();
     
@@ -201,14 +196,13 @@ class Video extends React.Component {
             job:this.props.location.state.job
              }
         });
-        }, 5000);
+        }, 30000);
       
     }
   }
 
   takephoto=()=>{
     if(this.state.start === true && this.state.startAnswering === true){
-        console.log("i'm evaluating!!!");
         var canvas = document.createElement('canvas');
         canvas.setAttribute('width', 1280);
         canvas.setAttribute('height', 720);
@@ -232,7 +226,6 @@ class Video extends React.Component {
         })
           .then((response)=> {
             //handle success
-            console.log(response.data);
             if(response.data === "good ")
               this.setState({good:this.state.good + 1});
             else if (response.data === "bad ")
@@ -241,13 +234,13 @@ class Video extends React.Component {
               this.setState({medium:this.state.medium + 1});
 
 
-            console.log("good",this.state.good);
-            console.log("bad",this.state.bad);
-            console.log("medium",this.state.medium);
+            console.log("good ",this.state.good);
+            console.log("bad ",this.state.bad);
+            console.log("medium ",this.state.medium);
           })
           .catch(function (response) {
             //handle error
-            console.log(response);
+            console.log("Fuck error: ",response);
           });
     }
   }
@@ -255,7 +248,6 @@ class Video extends React.Component {
     this.setState({start : true})
     var constraints = { audio: false, video: { width: 1280, height: 720 } };
     navigator.mediaDevices.getUserMedia(constraints).then((mediaStream)=> {
-      console.log(mediaStream)
       this.setState({mediaStream:mediaStream})
         var video = document.querySelector("video");
         var canvas = document.createElement('canvas');
@@ -264,9 +256,7 @@ class Video extends React.Component {
         var photo = document.createElement('photo');
         
         video.srcObject = mediaStream;
-        video.onloadedmetadata = (e)=> {
-          console.log(this.state.data);
-          console.log(this.state.mx);            
+        video.onloadedmetadata = (e)=> {          
           video.play(); 
           this.setState({start : true})
           this.setState({video : video})
@@ -318,7 +308,7 @@ stopRecording() {
     let data = new FormData();
     data.append('file', blob, 'record.wav');
     let dataSim = new FormData();
-    dataSim.append('file', blob, 'record2.wav');
+    dataSim.append('file', blob, 'record.wav');
     dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
     dataSim.append('ans2', this.state.data[this.state.idx - 1].answer2);
     dataSim.append('ans3', this.state.data[this.state.idx - 1].answer3);
@@ -327,7 +317,8 @@ stopRecording() {
       method: "post",
       url: serverURL+"/predictVoice",
       data: data,
-      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`}
+      headers: {'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+                'Access-Control-Allow-origin':'*'}
     })
     .then((res) => {
 
@@ -344,9 +335,9 @@ stopRecording() {
     })
     .then((res) => {
       var tuna=res.data;
+      console.log(tuna);
       //question = [answer, prob]
-      this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];
-     
+      this.state.Question_dic[tuna[0]] = [tuna[1], tuna[2]];    
       console.log(res)
     
     }).catch(function (response) {
