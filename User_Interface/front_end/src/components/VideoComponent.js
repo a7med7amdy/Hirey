@@ -186,6 +186,7 @@ class Video extends React.Component {
       //redirect to statistic page
       document.getElementById('container').style.display = 'none';
       document.getElementById('wait').style.display = 'block';
+      console.log("dddd",Object.keys(this.state.Question_dic).length);
       setTimeout(() => {
         this.props.history.push({
           pathname:"/feedback",
