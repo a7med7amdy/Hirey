@@ -308,7 +308,7 @@ stopRecording() {
     let data = new FormData();
     data.append('file', blob, 'record.wav');
     let dataSim = new FormData();
-    dataSim.append('file', blob, 'record.wav');
+    dataSim.append('file', blob, 'record2.wav');
     dataSim.append('ans1', this.state.data[this.state.idx - 1].answer1);
     dataSim.append('ans2', this.state.data[this.state.idx - 1].answer2);
     dataSim.append('ans3', this.state.data[this.state.idx - 1].answer3);
