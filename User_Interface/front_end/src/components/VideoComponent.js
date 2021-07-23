@@ -150,7 +150,7 @@ class Video extends React.Component {
         /////////////////////////////////////
         this.startRecording()
   });
-      }, 10000);
+      }, 5000);
   }
 
   takeQuestion = ()=>{
@@ -196,7 +196,7 @@ class Video extends React.Component {
             job:this.props.location.state.job
              }
         });
-        }, 30000);
+        }, 13000);
       
     }
   }
