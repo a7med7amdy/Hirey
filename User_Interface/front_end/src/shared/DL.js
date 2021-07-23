@@ -116,8 +116,8 @@ export const DL =
         id: 16,
         question: "Explain the layer of CNN: convolution",
         answer1: "This layer comprises of a set of independent filters. All these filters are initialized randomly. These filters then become our parameters which will be learned by the network subsequently.",
-        author: "The main task of the convolutional layer is to detect local conjunctions of features from the previous layer and mapping their appearance to a feature map.",
-        date: "A convolution is the simple application of a filter to an input that results in an activation."
+        answer2: "The main task of the convolutional layer is to detect local conjunctions of features from the previous layer and mapping their appearance to a feature map.",
+        answer3: "A convolution is the simple application of a filter to an input that results in an activation."
     },
     {
         id: 17,
