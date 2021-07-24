@@ -1,41 +1,203 @@
-answer 1=  Supervised learning is a system in which both input and desired output data are provided. Input and output data are labeled to provide a learning basis for future data processing.Unsupervised procedure does not need labeling information explicitly, and the operations can be carried out without the same. The common unsupervised learning method is cluster analysis. It is used for exploratory data analysis to find hidden patterns or grouping in data.
+# # function to convert the JavaScript object into an OpenCV image
+# def js_to_image(js_reply):
+#   """
+#   Params:
+#           js_reply: JavaScript object containing image from webcam
+#   Returns:
+#           img: OpenCV BGR image
+#   """
+#   # decode base64 image
+#   image_bytes = b64decode(js_reply.split(',')[1])
+#   # convert bytes to numpy array
+#   jpg_as_np = np.frombuffer(image_bytes, dtype=np.uint8)
+#   # decode numpy array into OpenCV BGR image
+#   img = cv2.imdecode(jpg_as_np, flags=1)
 
-answer 2=  supervised learning is a system in which post input and desired output data are provided input and output data or label to provide a learning business for future data processing doesn't need labeling information explicitly and the operation can be carried out without the same the common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in the theater
-supervised learning is system in which both input and desired output data are provided input and output data are labeled to provide learning basis for future data processingunsupervised procedure does not need labeling information explicitly and operations can be carried out without same common unsupervised learning method is cluster analysis it is used for exploratory data analysis to find hidden patterns or grouping in data supervised learning is system in which post input and desired output data are provided input and output data or label to provide learning business for future data processing doesnt need labeling information explicitly and operation can be carried out without same common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in theater
+#   return img
 
-0.9952521324157715
+# # function to convert OpenCV Rectangle bounding box image into base64 byte string to be overlayed on video stream
+# def bbox_to_bytes(bbox_array):
+#   """
+#   Params:
+#           bbox_array: Numpy array (pixels) containing rectangle to overlay on video stream.
+#   Returns:
+#         bytes: Base64 image byte string
+#   """
+#   # convert array into PIL image
+#   bbox_PIL = PIL.Image.fromarray(bbox_array, 'RGBA')
+#   iobuf = io.BytesIO()
+#   # format bbox into png for return
+#   bbox_PIL.save(iobuf, format='png')
+#   # format return string
+#   bbox_bytes = 'data:image/png;base64,{}'.format((str(b64encode(iobuf.getvalue()), 'utf-8')))
+
+#   return bbox_bytes
+
+# def video_stream():
+#   js = Javascript('''
+#     var video;
+#     var div = null;
+#     var stream;
+#     var captureCanvas;
+#     var imgElement;
+#     var labelElement;
+    
+#     var pendingResolve = null;
+#     var shutdown = false;
+    
+#     function removeDom() {
+#        stream.getVideoTracks()[0].stop();
+#        video.remove();
+#        div.remove();
+#        video = null;
+#        div = null;
+#        stream = null;
+#        imgElement = null;
+#        captureCanvas = null;
+#        labelElement = null;
+#     }
+    
+#     function onAnimationFrame() {
+#       if (!shutdown) {
+#         window.requestAnimationFrame(onAnimationFrame);
+#       }
+#       if (pendingResolve) {
+#         var result = "";
+#         if (!shutdown) {
+#           captureCanvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
+#           result = captureCanvas.toDataURL('image/jpeg', 0.8)
+#         }
+#         var lp = pendingResolve;
+#         pendingResolve = null;
+#         lp(result);
+#       }
+#     }
+    
+#     async function createDom() {
+#       if (div !== null) {
+#         return stream;
+#       }
+
+#       div = document.createElement('div');
+#       div.style.border = '2px solid black';
+#       div.style.padding = '3px';
+#       div.style.width = '100%';
+#       div.style.maxWidth = '600px';
+#       document.body.appendChild(div);
+      
+#       const modelOut = document.createElement('div');
+#       modelOut.innerHTML = "<span>Status:</span>";
+#       labelElement = document.createElement('span');
+#       labelElement.innerText = 'No data';
+#       labelElement.style.fontWeight = 'bold';
+#       modelOut.appendChild(labelElement);
+#       div.appendChild(modelOut);
+           
+#       video = document.createElement('video');
+#       video.style.display = 'block';
+#       video.width = div.clientWidth - 6;
+#       video.setAttribute('playsinline', '');
+#       video.onclick = () => { shutdown = true; };
+#       stream = await navigator.mediaDevices.getUserMedia(
+#           {video: { facingMode: "environment"}});
+#       div.appendChild(video);
+
+#       imgElement = document.createElement('img');
+#       imgElement.style.position = 'absolute';
+#       imgElement.style.zIndex = 1;
+#       imgElement.onclick = () => { shutdown = true; };
+#       div.appendChild(imgElement);
+      
+#       const instruction = document.createElement('div');
+#       instruction.innerHTML = 
+#           '<span style="color: red; font-weight: bold;">' +
+#           'When finished, click here or on the video to stop this demo</span>';
+#       div.appendChild(instruction);
+#       instruction.onclick = () => { shutdown = true; };
+      
+#       video.srcObject = stream;
+#       await video.play();
+
+#       captureCanvas = document.createElement('canvas');
+#       captureCanvas.width = 640; //video.videoWidth;
+#       captureCanvas.height = 480; //video.videoHeight;
+#       window.requestAnimationFrame(onAnimationFrame);
+      
+#       return stream;
+#     }
+#     async function stream_frame(label, imgData) {
+#       if (shutdown) {
+#         removeDom();
+#         shutdown = false;
+#         return '';
+#       }
+
+#       var preCreate = Date.now();
+#       stream = await createDom();
+      
+#       var preShow = Date.now();
+#       if (label != "") {
+#         labelElement.innerHTML = label;
+#       }
+            
+#       if (imgData != "") {
+#         var videoRect = video.getClientRects()[0];
+#         imgElement.style.top = videoRect.top + "px";
+#         imgElement.style.left = videoRect.left + "px";
+#         imgElement.style.width = videoRect.width + "px";
+#         imgElement.style.height = videoRect.height + "px";
+#         imgElement.src = imgData;
+#       }
+      
+#       var preCapture = Date.now();
+#       var result = await new Promise(function(resolve, reject) {
+#         pendingResolve = resolve;
+#       });
+#       shutdown = false;
+      
+#       return {'create': preShow - preCreate, 
+#               'show': preCapture - preShow, 
+#               'capture': Date.now() - preCapture,
+#               'img': result};
+#     }
+#     ''')
+
+#   display(js)
+  
+# def video_frame(label, bbox):
+#   data = eval_js('stream_frame("{}", "{}")'.format(label, bbox))
+#   return data
 
 
-answer 1=  A cost function describes us how well the neural network is performing with respect to its given training sample and the expected output. It may depend on variables such as weights and biases.It provides the performance of a neural network as a whole. In deep learning, our priority is to minimize the cost function. That's why we prefer to use the concept of gradient descent.
+# # start streaming video from webcam
+# video_stream()
+# # label for video
+# label_html = 'Capturing...'
+# # initialze bounding box to empty
+# bbox = ''
+# count = 0 
+# while True:
 
-answer 2=  supervised learning is a system in which post input and desired output data are provided input and output data or label to provide a learning business for future data processing doesn't need labeling information explicitly and the operation can be carried out without the same the common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in the theater
-cost function describes us how well neural network is performing with respect to its given training sample and expected output it may depend on variables such as weights and biasesit provides performance neural network as whole in deep learning our priority is to minimize cost function thats why we prefer to use concept gradient descent supervised learning is system in which post input and desired output data are provided input and output data or label to provide learning business for future data processing doesnt need labeling information explicitly and operation can be carried out without same common unsupervised learning method is cluster is cluster analysis it is used for exploratory data analysis to find hidden buttons or grouping in theater
+#     js_reply = video_frame(label_html, bbox)
+#     if not js_reply:
+#         break
 
-0.0015790850156918168
-
-
-answer 1=  Both shallow and deep networks are good enough and capable of approximating any function. But for the same level of accuracy, deeper networks can be much more efficient in terms of computation and number of parameters. Deeper networks can create deep representations. At every layer, the network learns a new, more abstract representation of the input.
-
-answer 2=  it cost function describes us how will the new rule network is performing with respect to it's a given training sample ends expected album it may depend on variables such as weights and biases it provides a performance of a neural network as a hole in our priority is to minimize the cost function that's why we prefer to use the concept of Korean descent
-both shallow and deep networks are good enough and capable approximating any function but for same level accuracy deeper networks can be much more efficient in terms computation and number parameters deeper networks can create deep representations at every layer network learns new more abstract representation input it cost function describes us how will new rule network is performing with respect to its given training sample ends expected album it may depend on variables such as weights and biases it provides performance neural network as hole in our priority is to minimize cost function thats why we prefer to use concept korean descent
-
-0.0015705289551988244
-
-answer 1=  Overfitting is the most common issue which occurs in deep learning. It usually occurs when a deep learning algorithm apprehends the sound of specific data. It also appears when the particular algorithm is well suitable for the data and shows up when the algorithm or model represents high variance and low bias.
-
-
-answer 1=  Deep learning model takes longer time to execute the model. In some cases, it even takes several days to execute a single model depends on complexity. The deep learning model is not good for small data sets, and it fails here.
-
-
-answer 2=  shallow and deep networks are good enough and the capital of approximating any function but for the same level of accuracy Bieber net worth be much more efficient in terms of computation and number of problems deeper Network can I create Deidre presentations at each layer then it learns a new more abstract representation of cell
-overfitting is most common issue which occurs in deep learning it usually occurs when deep learning algorithm apprehends sound specific data it also appears when particular algorithm is well suitable for data and shows up when algorithm or model represents high variance and low bias shallow and deep networks are good enough and capital approximating any function but for same level accuracy bieber net worth be much more efficient in terms computation and number problems deeper network can i create deidre presentations at each layer then it learns new more abstract representation cell
-
-0.0018304591067135334
-
-
-answer 2=  overfitting is the most common issue which occurs in deep learning usually occurs when a deep learning algorithm apprehends the sound of a specific data it also appears Windsor Windsor particular algorithm is well suitable for the data and shows up when Dark Arisen or model represents High variance and low bias
-deep learning model takes longer time to execute model in some cases it even takes several days to execute single model depends on complexity deep learning model is not good for small data sets and it fails here overfitting is most common issue which occurs in deep learning usually occurs when deep learning algorithm apprehends sound specific data it also appears windsor windsor particular algorithm is well suitable for data and shows up when dark arisen or model represents high variance and low bias
-
-0.013005889020860195
-
-
+#     # convert JS response to OpenCV Image
+#     img = js_to_image(js_reply["img"])
+    
+#     frameTemp = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#     frameTemp = cv2.resize(frameTemp, (100, 100))
+#     rects = find(frameTemp)
+#     rects = np.array(rects)
+#     rects = non_max_suppression_fast(rects, 0.2)
+#     for rect in rects:
+#         res,ret=getFaceAlign(frameTemp[rect[0]:rect[1],rect[2]:rect[3]])
+#         if ret==1:
+#           #print(funfac(res))
+#           pred= pr(res)
+#           if pred in ['Disgust','Fear','Sad','Angry']:
+#             print('Bad')
+#           elif pred in ['Surprise' , 'Neutral']:
+#             print('medium')
+#           elif pred == 'Happy':
+#             print('good')             
