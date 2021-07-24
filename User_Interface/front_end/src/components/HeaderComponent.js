@@ -53,11 +53,12 @@ class Header extends Component {
                 </Navbar>
                 {this.state.show !== false ?
                     <Jumbotron className="rounded-0">
-                        <div className="container mb-5">
+                        <div className="container mb-1">
                             <div className="row row-header">
                                 <div className="col-12 col-m-6">
                                     <h1>Mock Interview System </h1>
                                     <p className="ml-4 mt-4">An automated Mock Interview System to Test for a job dream, Your Perfect Career Guide </p>
+                                    {/* <br/> <br/> Complete interview preparation guide</p> */}
                                 </div>
                             </div>
                         </div>
