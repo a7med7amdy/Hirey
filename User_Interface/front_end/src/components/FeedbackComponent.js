@@ -162,15 +162,15 @@ class Feedback extends Component {
                         this.setState({Voice_Evaluation:
                         "In overall, your voice modulation is good, it seems you are relax keep going and never stop practising!"});
                         //Assign Advices. 
-                        this.state.Facial_advices.push(
+                       /* this.state.Voice_advices.push(
                             {id:1,
-                            advice:"Smile, there is nothing better than smiling but don't overdose smiling so it appears fake"});
-                        this.state.Facial_advices.push(
+                            advice:""});
+                        this.state.Voice_advices.push(
                             {id:2,
                             advice:"Don't close your eyebrow since it makes you look angry"});
-                        this.state.Facial_advices.push({
+                        this.state.Voice_advices.push({
                             id:3,
-                            advice:"Practice more and relax"});
+                            advice:"Practice more and relax"});*/
                 
                         break;
                     }

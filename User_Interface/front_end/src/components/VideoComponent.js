@@ -11,7 +11,7 @@ import image1 from "../2.png";
 import { useTimer } from 'react-timer-hook';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-const serverURL = "http://b76dc639b12a.ngrok.io";
+const serverURL = "http://1c4d6a69f706.ngrok.io";
 
 
 const mapStateToProps = state => {
@@ -190,7 +190,7 @@ class Video extends React.Component {
         this.props.history.push({
           pathname:"/feedback",
           state: { 
-            face_dic:{"good":this.state.good,"bad":this.state.bad, "medium":this.state.medium},
+            face_dic:{"good":this.state.good,"bad":10, "medium":5},
             voice_dic:this.state.voice_dic, 
             Question_dic:this.state.Question_dic,
             job:this.props.location.state.job
