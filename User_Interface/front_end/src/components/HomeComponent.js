@@ -25,7 +25,7 @@ class Home extends Component {
     super(props);
     this.state = {
         SelectedJob: 'Deep Learning',
-        // start: Math.floor(Math.random() * (15)),
+        //start: Math.floor(Math.random() * (15)),
         start: 15,
         seconds: 0
     };
