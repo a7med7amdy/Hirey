@@ -17,3 +17,6 @@ Interviews are crucial moments in one’s career. Theoretical knowledge of inter
 # System Modules
 ![alt text](https://user-images.githubusercontent.com/32201440/112652124-bb429780-8e55-11eb-9a03-0197dd64c932.png)
 
+# know more about us
+you can watch this [video](https://drive.google.com/file/d/1N7yzKgKsuS4Vu3KW3OFoBdqQ2OqvGR6f/view?usp=sharing) to know more about the app
+
